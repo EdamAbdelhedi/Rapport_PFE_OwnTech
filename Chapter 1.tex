@@ -1,0 +1,551 @@
+\chapter{Company Presentation and Internship Context}
+
+\section{Company Overview}
+
+OwnTech is an open-source power electronics initiative developed around the
+idea of making power electronics more accessible, reusable, programmable, and
+adaptable. Power electronics is a key technology for energy conversion: it is used
+to interface photovoltaic panels, batteries, motors, electrical grids, embedded
+systems, and many other energy sources or loads. However, the design of power
+converters is usually complex because it combines hardware constraints,
+real-time control, embedded software, measurement, safety, thermal management,
+and electromagnetic compatibility.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.38\textwidth]{OwnTech-Logo-1024x512.jpeg}
+\caption{OwnTech logo.}
+\label{fig:owntech_logo}
+\end{figure}
+
+The OwnTech structure combines an open-science foundation and an industrial
+company. The OwnTech Foundation is placed under the aegis of the CNRS
+Foundation and has existed since July 2022, while OwnTech Technologies was
+created in October 2023. This organization makes it possible to keep the
+project open and community-oriented while also supporting industrial
+development and deployment. In the company presentation material, Mr. Jean
+Alinei is presented as CEO of OwnTech Technologies, while Dr. Luiz Villa is
+one of the co-founders of OwnTech. This structure illustrates the link between
+engineering, research, and product development inside the OwnTech ecosystem.
+
+The objective of OwnTech is to reduce this complexity by providing a complete
+open-source technology suite for power electronics. This suite combines
+standard and reprogrammable power hardware, a simplified development
+environment, software libraries, documentation, and tools for monitoring and
+experimentation~\cite{owntech_home,owntech_docs}. Instead of designing a
+dedicated converter from zero for each application, the user can start from a
+common hardware and software base and adapt it to the required conversion
+function.
+
+This open-source approach also concerns the hardware itself. OwnTech highlights
+public and editable resources such as design files, bills of materials,
+assembly information, CAD files, documentation, and contribution material
+~\cite{owntech_home}. This is important for education and research, because
+users can inspect the platform, reproduce experiments, and adapt the design to
+specific constraints.
+
+The project follows the principle summarized by OwnTech as ``one hardware,
+many functions''. A single programmable power electronics platform can be used
+for several applications, such as battery charging, photovoltaic energy
+conversion, laboratory power supplies, motor control, LED driving, isolated
+systems, or small renewable-energy installations~\cite{owntech_home}. This
+approach is particularly useful for education, research, and prototyping,
+because the same hardware ecosystem can be reused to test different converter
+topologies and control strategies.
+
+This accessibility objective can be understood by comparison with other open
+electronics platforms. Arduino made embedded electronics accessible to a large
+community of users.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.38\textwidth]{Arduino.jpeg}
+\caption{Arduino board.}
+\label{fig:arduino_accessibility}
+\end{figure}
+
+In a similar way, Raspberry Pi made small computing platforms accessible for
+education, prototyping, and embedded projects.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.38\textwidth]{Raspberry_Pi.jpg}
+\caption{Raspberry Pi board.}
+\label{fig:raspberry_pi_accessibility}
+\end{figure}
+
+Micro:bit simplified the first contact with programming and digital systems,
+especially for children, beginners, and educational activities.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.34\textwidth]{microbit.jpeg}
+\caption{Micro:bit board.}
+\label{fig:microbit_accessibility}
+\end{figure}
+
+OwnTech follows the same accessibility logic in the field of power
+electronics. After these well-known examples, the next step is to present the
+OwnTech boards available in its ecosystem: first the SPIN control board, then
+the TWIST power module, and finally the OwnVerter three-phase converter.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth]{owntech_sandbox.jpg}
+\caption{OwnTech technology sandbox.}
+\label{fig:owntech_sandbox}
+\end{figure}
+
+The OwnTech approach can also be described as a user-centric technology
+sandbox. This sandbox connects different communities, such as academia,
+industry, makers, and fablabs, to a common set of tools. These tools include
+standard hardware, an intuitive IDE, unified documentation, and open data
+monitoring. The goal is not only to provide electronic boards, but to provide
+all the elements required to create, test, share, and improve power electronics
+applications.
+
+This organization creates impact in two ways. First, it helps new ideas become
+real applications in areas such as smart grids, electrical mobility, energy
+storage, and renewable energy. Second, it supports learning by doing: students,
+engineers, researchers, and makers can experiment on an open platform and
+exchange with the community. This is consistent with the OwnTech objective of
+giving users the tools they need to act for the energy transition.
+
+\section{OwnTech Boards and Tools}
+
+The OwnTech ecosystem is organized as a modular set of hardware boards and
+software tools dedicated to power electronics. Among the main elements
+presented by OwnTech are the SPIN control board, the TWIST power module, and
+the OwnPlot monitoring interface~\cite{owntech_home,owntech_spin,owntech_twist}.
+Other boards and application-specific modules can also be part of this
+ecosystem depending on the target converter, the required power level, and the
+type of experiment. For example, the OwnVerter board extends the same approach
+toward three-phase and motor-control applications. Together, these elements
+allow the user to control, power, measure, debug, and monitor converter
+applications within a coherent open-source environment.
+This corresponds to a software-defined power conversion approach: the hardware
+provides the electrical interface, while the software defines the converter
+behaviour through PWM generation, measurements, protections, communication, and
+control algorithms.
+
+\subsection{Main OwnTech Boards}
+
+OwnTech is built around modular boards and software tools that cover the main
+needs of a power converter: control, power conversion, measurement, debugging,
+and monitoring. The main boards presented in this report are SPIN, TWIST, and
+OwnVerter. SPIN is the OwnTech power controller board used to generate PWM signals,
+acquire measurements, and execute real-time control algorithms. TWIST is a
+programmable and stackable power module for DC and AC applications up to
+110~V~\cite{owntech_twist}. OwnVerter extends the same approach toward
+three-phase motor-control applications. The OwnPlot software interface
+completes these boards by allowing the user to interact with the application
+and monitor internal variables during operation~\cite{owntech_docs}.
+
+\begin{table}[H]
+\centering
+\caption{Main OwnTech boards and tools}
+\label{tab:owntech_boards}
+\begin{tabularx}{\textwidth}{|p{3.0cm}|X|}
+\hline
+\textbf{Board or Tool} & \textbf{Main role} \\ \hline
+SPIN &
+OwnTech power controller board used for PWM generation, measurement acquisition,
+real-time control, debugging, and communication with monitoring tools. \\ \hline
+TWIST &
+Programmable and stackable power module used as the power conversion stage for
+DC and AC applications up to 110~V. \\ \hline
+OwnVerter &
+Reprogrammable 1.3~kW three-phase power converter mainly intended for
+motor-control applications. \\ \hline
+OwnPlot &
+Monitoring interface used to interact with an application and visualize
+internal variables during operation. \\ \hline
+\end{tabularx}
+\end{table}
+
+Designing a power converter is not an easy task. With OwnTech, the user works
+inside a unified environment where the hardware and software are already
+compatible and ready to be customized. A simplified graphical interface helps
+the user take control of the converter quickly, while the development
+environment allows the application to be adapted to the required use case.
+
+Once the application is ready, it can be deployed in real operating conditions,
+and usage data can be collected through the included monitoring platform. The
+user also has access to extended documentation, from calculation notes to user
+manuals. Finally, the community dimension is important: users can share their
+results, discuss problems, and receive support while building their own
+applications.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{images.png}
+\caption{OwnTech unified environment around the user.}
+\label{fig:owntech_user_environment}
+\end{figure}
+
+For this report, the most important board is SPIN, because it was the central
+controller used during the internship and is also used as a reusable control
+board for several OwnTech converter platforms.
+
+\subsection{SPIN Control Board}
+
+OwnTech presents SPIN as a free, ergonomic, and multi-function power controller
+~\cite{owntech_spin}. Its main interest is that the same control board can be
+reused with different power stages, while keeping a common software environment
+and development workflow.
+
+Compared with a conventional microcontroller development board, SPIN provides functions that are
+directly useful for switched-mode converters: PWM generation, synchronized
+measurements, real-time control loops, communication with monitoring tools, and
+debugging support. This makes it suitable for applications such as DC/DC
+converters, inverters, motor drives, battery chargers, and laboratory
+prototypes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{images.jpeg}
+\caption{OwnTech SPIN power controller board.}
+\label{fig:spin_control_board}
+\end{figure}
+
+\subsubsection{Typical SPIN Workflow}
+
+The SPIN board is designed to reduce the number of steps required to start
+controlling a power converter. The intended workflow is simple: the user
+connects the board through USB-C, downloads the OwnTech code and examples from
+GitLab, then programs the board to drive the power stage. This workflow is
+important because it lowers the entry barrier for users who want to experiment
+with digital power electronics without building a complete control environment
+from scratch.
+
+
+\begin{table}[H]
+\centering
+\caption{Main SPIN features highlighted by OwnTech}
+\label{tab:spin_features}
+\small
+\begin{tabularx}{0.95\textwidth}{|p{2.8cm}|X|}
+\hline
+\textbf{Category} & \textbf{Main features} \\ \hline
+Ease of use &
+Native USB support, OwnPlot monitoring interface, integrated debugger, and
+compatibility with MATLAB or Visual Studio environments. \\ \hline
+Real-time control &
+Configurable control frequency, voltage mode control, and peak current mode
+control. \\ \hline
+Measurement acquisition &
+Six ready-to-use 12-bit ADC channels, 60~kHz acquisition rate, accurate timing
+measurements, and non-blocking acquisition system. \\ \hline
+PWM generation &
+Eleven ready-to-use PWM signals, 55~MHz maximum frequency, 184~ps time
+resolution, advanced phase-shift options, and
+configurable dead-time. \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsubsection{Role During the Internship}
+
+During this internship, the SPIN board was central to the first PCB project.
+Its GPIO and PWM signals had to be validated through the SPOC oscilloscope
+shield. The validation bench uses a SPIN board under test to generate
+electrical signals, while another control stage selects which signals are
+routed toward the oscilloscope. The SPOC board therefore contributes directly
+to the validation of SPIN-based hardware and software behaviour.
+
+In the second project, the same control needs appear at a higher switching
+performance level: accurate PWM generation, dead-time control, isolation, and
+safe switching sequences are required for the GaN half-bridge board.
+
+\subsection{TWIST Power Module}
+
+TWIST is the OwnTech reprogrammable power module. It is designed as a
+bidirectional 300~W converter with two low-side channels and one high-side
+channel. According to the TWIST datasheet, the low-side voltage range is
+12--72~V, the high-side voltage range is up to 100~V in normal operation, and
+the board can deliver up to 8~A per low-side channel or 16~A when the channels
+are used in parallel.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{twist.jpeg}
+\caption{OwnTech TWIST power module.}
+\label{fig:twist_board}
+\end{figure}
+
+The board can be used in several configurations. The two low-side channels may
+operate independently to provide two outputs, or they may be combined to
+increase the available current. TWIST can be used for DC/DC buck conversion,
+boost conversion, independent output operation, low-voltage inverter
+experiments, and power-factor-correction studies. This makes it a practical
+platform for learning, prototyping, and validating power electronics control
+functions.
+
+TWIST is compatible with the SPIN board or other programming systems and
+supports communication through CAN-bus and RS-485. Its measurement chain
+provides observability of voltages, currents, and temperatures, which is
+important for closed-loop control and experimental validation.
+
+\subsection{OwnVerter Board}
+
+OwnVerter extends the OwnTech ecosystem toward higher power and three-phase
+applications. It is described in its datasheet as a reprogrammable 1.3~kW
+three-phase converter designed mainly for motor-control applications. Unlike
+TWIST, which is more general-purpose and modular, OwnVerter is optimized for
+three-phase operation and can be used with BLDC motor-control examples and
+field-oriented-control libraries.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{ownverter.png}
+\caption{OwnTech OwnVerter three-phase power converter.}
+\label{fig:ownverter_board}
+\end{figure}
+
+The board includes three low-side power channels, one high-side DC bus, and
+selectable current sensing ranges. It can interface with Hall-effect sensors,
+incremental encoders, and Sin/Cos encoders, which makes it suitable for precise
+motor feedback control. It also supports communication through CAN-bus and
+RS-485, allowing it to be integrated into a larger experimental setup.
+
+OwnVerter therefore shows how the same OwnTech approach can be extended from
+general converter experiments to more advanced motor-drive applications.
+
+\section{Internship Context}
+
+The internship subject is also connected to a larger evolution of OwnTech
+hardware. After low-voltage modular converters, the next development step is to
+move toward higher voltage and higher power applications. The internship
+subject targets converter modules in the range of 400--800~V and 1--10~kW,
+with applications such as photovoltaic inverters, motor drives, and other
+high-power energy conversion systems.
+
+This evolution introduces new technical constraints. At higher voltage and
+higher power, the design must consider insulation, creepage and clearance,
+thermal limits, electromagnetic compatibility, safety, and pre-certification
+requirements. The use of wide-bandgap devices such as GaN and SiC can improve
+switching performance and efficiency, but it also makes PCB layout, gate
+driving, parasitic effects, and measurement quality much more critical.
+
+In this context, the internship work was organized around two different PCB
+projects. Although these two boards are different, they both support the same
+global objective: improving the development and validation workflow of
+open-source power electronics hardware. The first project focused on automated
+validation, because reliable and repeatable tests are necessary before scaling
+hardware platforms. The second one concerned a GaN half-bridge board intended
+for high-speed power switching experiments.
+
+The first board is the SPIN Oscilloscope Shield, called SPOC. It is an
+oscilloscope interface board used to route selected signals from a SPIN board
+under test to oscilloscope inputs. It allows up to four selected GPIO or PWM
+signals to be observed at the same time on a standard four-channel
+oscilloscope. This board contributes to the automated test bench by making
+physical signal validation more systematic and less dependent on manual
+probing. The oscilloscope measurements provide feedback to the test software,
+which can then decide whether the tested signal passes or fails according to
+the expected electrical behaviour.
+
+The second board is a GaN-based half-bridge board. It is intended as an
+experimental platform for high-speed switching tests and future high-voltage
+converter development. The board integrates digital isolation, gate-driver
+stages, an isolated floating supply for the high-side driver, two 650~V GaN
+transistors, and a compact DC-link path. Its design is linked to the future
+high-power direction of OwnTech, where switching performance, EMI, safety, and
+pre-certification become major design concerns.
+
+
+
+
+
+
+
+\section{State of the Art: Sustainable and Modular Power Electronics}
+\label{sec:sustainable_modular_power_electronics}
+
+Power electronics is one of the enabling technologies of the energy transition.
+It allows electrical energy to be converted, controlled, stored, and exchanged
+between photovoltaic panels, batteries, motors, electrical grids, and embedded
+systems. However, a power converter is often designed as a dedicated product
+for one voltage range, one power level, one topology, and one control strategy.
+When the application evolves, this type of closed design can become difficult to
+inspect, repair, modify, or reuse. Sustainability in power electronics is
+therefore not only a question of efficiency. It also depends on documentation,
+maintenance, modularity, upgradeability, and the ability to keep hardware useful
+during a longer life cycle.
+
+The state-of-the-art discussion focuses on three
+complementary concepts: open-source hardware, obsolescence management, and
+software-defined modular converters. These concepts provide a useful background
+for discussing how modularity, documentation, and validation can support more
+sustainable power electronics hardware.
+
+\subsection{Open-Source Hardware as a Sustainability Tool}
+\label{subsec:osh_sustainability_tool}
+
+Open-source hardware gives users access to the design information of a physical
+system. In practice, this means that the hardware can be operated, studied,
+modified, reproduced, manufactured, and sold under the conditions of the
+associated licence. Bonvoisin et al. explain that open-source hardware requires
+standardised documentation practices in order to make these rights usable in
+practice~\cite{bonvoisin2020standardisation}. A schematic or a PCB file alone is
+not enough: users also need interface descriptions, assembly information,
+manufacturing data, software, tests, safety limits, and maintenance-oriented
+information.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{images/chapitre 1/slide_10.png}{%
+        \includegraphics[width=0.85\textwidth]{images/chapitre 1/slide_10.png}%
+    }{%
+        \fbox{\parbox[c][4.2cm][c]{0.85\textwidth}{\centering Missing figure file}}%
+    }
+    \caption{Open-source hardware rights and their link with modularity and interoperability.}
+    \label{fig:open_source_hardware_rights}
+\end{figure}
+
+For power electronics, this openness has a direct technical value. A converter
+combines power semiconductors, gate drivers, sensing circuits, protection
+functions, embedded control, communication, thermal design, and electromagnetic
+compatibility constraints. If these elements are documented, the converter is
+not only a product to be used; it also becomes a technical object that can be
+understood, validated, repaired, and adapted by engineers, researchers,
+students, and makers.
+
+\subsection{Obsolescence in Power Electronics}
+\label{subsec:obsolescence_power_electronics}
+
+Obsolescence describes the situation in which a product, component, or system
+becomes outdated, unavailable, unsuitable, or less useful with respect to current
+needs. In industrial systems, obsolescence management is also treated as a
+life-cycle activity intended to anticipate and reduce the impact of unavailable
+or outdated items. Mellal identifies several forms of
+obsolescence, including technical, functional, planned, psychological, and
+optional obsolescence~\cite{mellal2020obsolescence}. In power electronics,
+technical and functional obsolescence are the most critical for industrial and
+research platforms.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{images/chapitre 1/slide_12.png}{%
+        \includegraphics[width=0.9\textwidth]{images/chapitre 1/slide_12.png}%
+    }{%
+        \fbox{\parbox[c][4.2cm][c]{0.9\textwidth}{\centering Missing figure file}}%
+    }
+    \caption{Main obsolescence mechanisms in power electronics.}
+    \label{fig:power_electronics_obsolescence}
+\end{figure}
+
+Figure~\ref{fig:power_electronics_obsolescence} summarizes the main forms of
+obsolescence that can affect a power electronics system. Technical obsolescence
+comes from component unavailability, reference discontinuation, or supplier
+disappearance. Functional obsolescence appears when the converter still works,
+but no longer matches the required power level, energy flow, or conversion type.
+Planned obsolescence is mainly related to sizing choices made during design, for
+example with electrolytic capacitors whose lifetime depends strongly on
+temperature and electrical stress.
+
+The figure also includes psychological and optional obsolescence. Psychological
+obsolescence is linked to footprint, weight, or style, and is mostly a B2C
+criterion, although it can also influence the perceived usability of a platform.
+Optional obsolescence occurs when a converter cannot adapt to changes in its
+environment, for example because its interfaces, sensing possibilities, control
+software, or hardware architecture are too fixed. This is important for OwnTech,
+whose objective is to build reusable converter platforms that can be maintained
+and adapted instead of replaced as black boxes.
+
+\subsection{Modularity and Software-Defined Power Conversion}
+\label{subsec:modularity_sdpc}
+
+Modularity is one way to reduce the impact of obsolescence. Instead of
+redesigning or replacing a complete converter, the system can be separated into
+functional blocks with clear interfaces: control, sensing, communication,
+isolation, gate driving, power switching, filtering, and load interface. If one
+block becomes obsolete, limited, or defective, it can be redesigned or replaced
+without changing the whole platform.
+
+This idea is related to the Power Electronic Building Block (PEBB) concept,
+where power converters are organised as reusable bricks integrating switching
+devices, drivers, sensing, protection, thermal design, and local control. Several
+bricks can then be combined into a Power Converter Array (PCA) to scale voltage,
+current, power, redundancy, or topology. OwnTech also connects this logic to
+Software Defined Power Conversion (SDPC): the hardware remains generic or
+modular, while the software defines PWM generation, control loops, protections,
+operating modes, and sometimes the effective conversion function.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{images/chapitre 1/slide_16.png}{%
+        \includegraphics[width=0.78\textwidth]{images/chapitre 1/slide_16.png}%
+    }{%
+        \fbox{\parbox[c][4.2cm][c]{0.8\textwidth}{\centering Missing figure file}}%
+    }
+    \caption{PEBB, PCA, and SDPC concepts.}
+    \label{fig:pebb_pca_sdpc_concepts}
+\end{figure}
+
+Rahmani discuss the opportunities of modularity for the eco-design of
+power converters, especially through repair, reuse, and replacement of
+sub-parts~\cite{rahmani2021modularity}. This is particularly relevant in power
+electronics because the stressed elements of a converter do not age at the same
+speed. Power semiconductors, gate drivers, DC-link capacitors, filters, thermal
+interfaces, control electronics, and communication circuits may all have
+different life-cycle constraints.
+
+In the context of this internship, this modularity principle is directly linked
+to the separation between the control and communication functions, the
+instrumentation functions, the isolation stage, the gate-driver stage, and the
+GaN half-bridge power stage. This separation makes the system easier to analyse
+and validate, and it also makes future upgrades more practical. For example, a
+new power stage could be developed to test another GaN or SiC device while
+keeping the same control and instrumentation environment. Conversely, the
+control or communication board could evolve without requiring a complete redesign
+of the power stage.
+
+\subsection{Documentation and Maintenance}
+\label{subsec:documentation_maintenance}
+
+A major maintenance issue in power electronics is that converters, especially
+inverters, are often treated as black boxes. When a fault appears, the complete
+unit is frequently replaced because the internal design, diagnostic information,
+and repair procedure are not available. Open-source hardware can help reduce
+this problem only if the documentation covers the full life cycle of the
+product, not only its manufacturing phase.
+
+\begin{figure}[htbp]
+    \centering
+    \IfFileExists{images/chapitre 1/slide_19.png}{%
+        \includegraphics[width=0.66\textwidth]{images/chapitre 1/slide_19.png}%
+    }{%
+        \fbox{\parbox[c][4.2cm][c]{0.9\textwidth}{\centering Missing figure file}}%
+    }
+    \caption{Modular architecture for a repairable power converter.}
+    \label{fig:repairable_converter_architecture}
+\end{figure}
+
+This representation is directly related to the modular approach used in the
+internship work. A converter can be viewed as an assembly of functional blocks:
+control, instrumentation, gate driving, power semiconductors, filtering, and
+load interface. If one block becomes defective or obsolete, the objective is to
+replace or redesign only this block instead of replacing the complete converter.
+This approach supports repairability, upgradeability, and reduction of material
+waste, provided that the interfaces, diagnostic points, replacement options, and
+maintenance information of each block are documented clearly.
+
+\subsection{Link with the Internship Work}
+\label{subsec:internship_positioning_sustainability}
+
+This link with the state of the art is mainly visible through the GaN
+half-bridge board. The board is intended as a reusable experimental power stage
+for high-speed and high-voltage switching tests. It follows the modular logic
+described above by separating the control board, measurement interface,
+isolation, gate-driver stage, and power stage.
+
+This separation makes the system easier to understand, validate, modify, and
+upgrade. Instead of redesigning one large board, several parameters can be
+adjusted by changing only the block or small board concerned. For example, the
+power stage can evolve toward another GaN or SiC device while keeping the same
+control and measurement environment. Its power capability can also be adapted by
+replacing the selected MOSFET with a more powerful device, or by studying
+series-connected GaN MOSFETs when higher voltage or power levels are required.
+In this sense, the internship contributes to the OwnTech objective of building
+power electronics hardware that is more open, modular, maintainable, and
+adaptable.

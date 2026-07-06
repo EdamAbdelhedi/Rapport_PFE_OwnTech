@@ -1,0 +1,25 @@
+\chapter{Half-Bridge Board}
+
+
+\section{Overview}
+
+As part of the development of high-voltage and high-power open-source power converters, a dedicated GaN-based Half-Bridge Board was designed during this internship. This board represents the second hardware platform developed within the project and serves as an experimental test vehicle for the evaluation of wide-bandgap semiconductor devices and high-speed switching techniques.
+
+The board is intended to provide a flexible environment for studying the behaviour of Gallium Nitride (GaN) transistors under high-frequency operation. It enables the investigation of several critical aspects of modern power electronics systems, including gate driving strategies, switching performance, parasitic effects, electromagnetic interference (EMI), and isolation techniques.
+
+The implemented topology consists of a half-bridge configuration based on two 650~V enhancement-mode GaN transistors. The half-bridge structure is one of the most fundamental building blocks in power electronics and is widely used in DC/DC converters, motor drives, photovoltaic inverters, and grid-connected converters.
+
+Compared to conventional silicon devices, GaN transistors offer significantly faster switching transitions and lower switching losses. However, these advantages also introduce new design challenges. The resulting high voltage and current slew rates ((dv/dt) and (di/dt)) increase the sensitivity of the system to parasitic inductances and capacitances. These parasitic elements can generate voltage overshoots, ringing phenomena, and additional electromagnetic interference during switching transitions. Consequently, PCB layout, commutation loop design, gate-driver implementation, and isolation techniques become critical aspects of the overall converter design.
+
+Particular attention was also paid to voltage derating considerations. Although the selected GaN devices are rated for 650~V, transient voltage overshoots caused by parasitic inductances during switching events may significantly increase the instantaneous drain-to-source voltage. Therefore, the board was designed with these practical high-voltage constraints in mind.
+
+To address these challenges, the developed board integrates several dedicated functional blocks:
+
+\begin{itemize}
+\item Digital isolation of the PWM control signals;
+\item High-side and low-side gate driver stages;
+\item An isolated floating power supply for the high-side driver;
+\item A GaN-based half-bridge switching stage;
+\item A DC-link capacitor to minimize commutation loop inductance.
+\end{itemize}
+

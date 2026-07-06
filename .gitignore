@@ -1,0 +1,48 @@
+# LaTeX build artifacts
+build/
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
+# Local editor/system files
+.vscode/
+.agents/
+.codex/
+Thumbs.db
+Desktop.ini
+
+# Local/reference documents not used by the report build
+Obsolescencev2.pptx
+internship_subject*.pdf
+README.md
+SOFTWARE_DOCUMENTATION.md
+
+# Unused images kept locally
+images/Chapitre 1/ffef.jpg
+images/Chapitre 1/images (1).png
+images/Chapitre 1/next.jpg
+images/Chapitre 1/Owntech .jpg
+images/Chapitre 1/owntech1.jpg
+images/Chapitre 1/ownverter-1024x769.webp
+images/Chapitre 1/ownverter.webp
+images/Chapitre 1/pinout_spin_v1.1.0.png
+images/Chapitre 1/Raspberry Pi.jpg
+images/Chapitre 1/slide_10.png.jpg
+images/Chapitre 1/slide_23.png
+images/Chapitre 1/spin.webp
+images/Chapitre 1/SPIN_Board.png
+images/Chapitre 2/a58c1c8e-126d-4f87-82bd-7f83d314a24c.jpeg
+images/Chapitre 2/architecture_diagram.png
+images/Chapitre 2/PWM.drawio.png
+images/Chapitre 2/SPIN_Oscilloscope_Shield-CablageCH2.png
+images/Chapitre 2/SPIN_Oscilloscope_Shield-CablageCH3.png
+images/Chapitre 2/SPIN_Oscilloscope_Shield-CablageCH4.png
+images/Chapitre 2/SPIN_Oscilloscope_shield.drawio.png

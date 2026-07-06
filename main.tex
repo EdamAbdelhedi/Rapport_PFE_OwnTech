@@ -1,0 +1,109 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{textpos}
+\usepackage{tabularx}
+\usepackage{dirtytalk}
+\usepackage{fancyhdr}
+\usepackage[nottoc]{tocbibind}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,arrows.meta}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{calc}
+\usepackage[pages=some]{background}
+\usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{titlesec}
+\usepackage{url}
+\Urlmuskip=0mu plus 2mu\relax
+
+\graphicspath{
+    {images/}
+    {images/Chapitre 1/}
+    {images/Chapitre 2/}
+}
+\setkeys{Gin}{keepaspectratio}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt plus 2pt minus 2pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\numberwithin{equation}{section}
+
+\begin{document}
+
+\title{ELECTRONIC DEVICES MADE FROM RECYCLED FIBERS \\ Final Year Project}
+\author{ABDELHEDI Edam}
+\date{Academic Year 2024--2025}
+
+% spacing rule
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% title page
+\input{./title.tex}
+
+\newpage
+\input{abbreviations}
+
+\newpage
+~
+\thispagestyle{empty}
+
+\tableofcontents
+\listoffigures
+
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+\thispagestyle{empty}
+
+\newpage
+\setcounter{page}{0}
+
+\renewcommand{\arraystretch}{1.5}
+
+% === Chapter inclusions ===
+
+~
+\thispagestyle{empty}
+
+\input{Acknowledgements}
+\input{Introduction}
+\input{Chapter 1}
+\input{Chapter 2}
+\input{Chapter 3}
+\input{Conclusion}
+\input{Appendix}
+
+\newpage
+\begingroup
+\small
+\sloppy
+\setlength{\emergencystretch}{4em}
+\nocite{owntech_values}
+\bibliographystyle{unsrt}
+\bibliography{references}
+\endgroup
+
+\end{document}
