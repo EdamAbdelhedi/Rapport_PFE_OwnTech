@@ -1,25 +1,559 @@
 \chapter{Half-Bridge Board}
 
-
 \section{Overview}
 
-As part of the development of high-voltage and high-power open-source power converters, a dedicated GaN-based Half-Bridge Board was designed during this internship. This board represents the second hardware platform developed within the project and serves as an experimental test vehicle for the evaluation of wide-bandgap semiconductor devices and high-speed switching techniques.
+The second hardware platform developed during the internship is a GaN-based
+Half-Bridge Board. It was designed as an experimental power stage for the
+future high-voltage direction of OwnTech, where converter modules are expected
+to operate at higher voltage, higher power, and higher switching speed than the
+low-voltage platforms presented in the previous chapters.
 
-The board is intended to provide a flexible environment for studying the behaviour of Gallium Nitride (GaN) transistors under high-frequency operation. It enables the investigation of several critical aspects of modern power electronics systems, including gate driving strategies, switching performance, parasitic effects, electromagnetic interference (EMI), and isolation techniques.
+The board is not a complete standalone converter. Its purpose is to isolate and
+study the most critical part of a power converter: the switching cell and its
+immediate driving environment. The implemented topology uses two 650~V
+enhancement-mode GaN transistors in a half-bridge structure. This topology is a
+basic building block for DC/DC converters, motor drives, photovoltaic inverters,
+and grid-connected converters, which makes it a useful platform before moving
+toward more complete architectures.
 
-The implemented topology consists of a half-bridge configuration based on two 650~V enhancement-mode GaN transistors. The half-bridge structure is one of the most fundamental building blocks in power electronics and is widely used in DC/DC converters, motor drives, photovoltaic inverters, and grid-connected converters.
+Compared with silicon MOSFETs, GaN transistors can switch faster and with lower
+switching losses. These advantages are also the main design difficulty. Fast
+\(dv/dt\) and \(di/dt\) transitions make the circuit sensitive to parasitic
+inductances, parasitic capacitances, voltage overshoots, ringing, common-mode
+currents, and electromagnetic interference. For this reason, the design work
+focused on the practical conditions required to use GaN devices correctly:
+short commutation loops, controlled gate-drive paths, separated reference
+domains, isolation, and high-voltage spacing.
 
-Compared to conventional silicon devices, GaN transistors offer significantly faster switching transitions and lower switching losses. However, these advantages also introduce new design challenges. The resulting high voltage and current slew rates ((dv/dt) and (di/dt)) increase the sensitivity of the system to parasitic inductances and capacitances. These parasitic elements can generate voltage overshoots, ringing phenomena, and additional electromagnetic interference during switching transitions. Consequently, PCB layout, commutation loop design, gate-driver implementation, and isolation techniques become critical aspects of the overall converter design.
-
-Particular attention was also paid to voltage derating considerations. Although the selected GaN devices are rated for 650~V, transient voltage overshoots caused by parasitic inductances during switching events may significantly increase the instantaneous drain-to-source voltage. Therefore, the board was designed with these practical high-voltage constraints in mind.
-
-To address these challenges, the developed board integrates several dedicated functional blocks:
+The board integrates four main functional blocks:
 
 \begin{itemize}
-\item Digital isolation of the PWM control signals;
-\item High-side and low-side gate driver stages;
-\item An isolated floating power supply for the high-side driver;
-\item A GaN-based half-bridge switching stage;
-\item A DC-link capacitor to minimize commutation loop inductance.
+    \item digital isolation for the PWM and enable commands;
+    \item isolated auxiliary supplies for the high-side and low-side drivers;
+    \item local gate-driver stages referenced to the GaN Kelvin sources;
+    \item a compact GaN half-bridge switching cell with local DC-link capacitors.
 \end{itemize}
 
+This chapter presents the board architecture, the main design requirements, the
+choice of wide-bandgap devices, the schematic organization, the reference
+domains, the external supplies, the PCB layout, and the next validation steps.
+
+
+\section{Modular Design Strategy}
+
+A complete power converter can be separated into functional blocks such as the
+control unit, instrumentation, auxiliary supplies, isolation, gate drivers,
+power semiconductors, filtering elements, and load interface. This separation is
+especially important in high-speed converters because the different blocks do
+not share the same electrical constraints.
+
+Figure~\ref{fig:modular_power_converter_blocks} illustrates this decomposition.
+The control and instrumentation parts mainly handle low-voltage digital and
+analog signals. The gate-driver and power semiconductor stages, however, are
+directly exposed to the high-speed switching constraints. They therefore require
+specific attention in schematic design, component placement, insulation,
+grounding, and PCB layout.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/Chapitre 3/slide_19.png}
+    \caption{Functional decomposition of a power converter into several design blocks.}
+    \label{fig:modular_power_converter_blocks}
+\end{figure}
+
+The strategy adopted in this project was therefore to avoid placing the complete
+converter on one board. The Half-Bridge Board concentrates on the switching
+cell and the functions that must remain physically close to it: isolation,
+isolated driver supplies, high-side and low-side gate drivers, the two GaN
+transistors, and the local DC-link capacitors. The upper control and interface
+functions are left to a future board.
+
+This organization has two advantages. First, it keeps the most critical current
+paths compact, which helps reduce the commutation loop inductance. Second, it
+makes the power stage easier to test and modify independently from the control
+electronics. This is consistent with the modular approach discussed in the
+state of the art: a converter becomes easier to validate, repair, or upgrade
+when its functional blocks and interfaces are clearly identified.
+
+
+\section{Design Requirements and Constraints}
+
+The design requirements were defined from the role of the board as a reusable
+high-speed power stage. They can be grouped into functional, electrical,
+integration, and validation constraints.
+
+\begin{table}[H]
+\centering
+\caption{Main design requirements of the Half-Bridge Board}
+\label{tab:half_bridge_design_requirements}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.0cm}|X|}
+\hline
+\textbf{Requirement type} & \textbf{Design implication} \\ \hline
+Power topology &
+Implement a compact half-bridge cell using two 650~V enhancement-mode GaN
+transistors. \\ \hline
+High-voltage operation &
+Maintain insulation distances and voltage derating margins with respect to the
+DC-bus voltage and possible switching overshoots. \\ \hline
+High-speed switching &
+Minimize the commutation loop, place the DC-link capacitors close to the GaN
+devices, and keep the gate-drive loops short. \\ \hline
+Control separation &
+Protect the external low-voltage controller using digital isolation and
+separated reference domains. \\ \hline
+Driver supplies &
+Provide isolated auxiliary supplies for the high-side and low-side gate-driver
+stages. \\ \hline
+Experimental use &
+Allow waveform observation, gate-drive verification, switching-node analysis,
+and future tests such as double-pulse testing or back-to-back operation. \\
+\hline
+\end{tabularx}
+\end{table}
+
+These requirements guided the schematic architecture and the PCB placement. In
+particular, the board had to keep the power switching path compact while still
+maintaining a clear isolation boundary between the command side and the
+high-voltage side. The same constraints also influenced the choice of connectors
+and test points, because the board must be practical to use during laboratory
+validation.
+
+
+\section{Choice of Wide-Bandgap Power Devices}
+
+The choice of the power semiconductor technology is an important aspect of the
+Half-Bridge Board design. Instead of conventional silicon MOSFETs, the project
+focuses on wide-bandgap devices, mainly Gallium Nitride (GaN) and Silicon
+Carbide (SiC). These technologies are well suited for modern power electronics
+because they allow faster switching transitions, lower switching losses, and
+higher power density compared with conventional silicon
+devices~\cite{buffolo2024gan_sic_review}.
+
+The first version of the board is based on GaN technology. The selected device
+is the CID10N65D5, a 650~V GaN-on-Silicon enhancement-mode transistor in a DFN
+5~mm~\(\times\)~6~mm package~\cite{cid10n65d5_datasheet}. Two devices are used in
+the half-bridge power stage and are referenced as \(U8\) and \(U11\) in the bill
+of materials. According to the datasheet, this transistor has a maximum
+drain-source voltage of 650~V, a maximum on-state resistance of
+200~m\(\Omega\), and a typical gate charge of 2.3~nC.
+
+These characteristics make the component suitable for high-speed switching
+experiments. The low gate charge is useful because the driver can charge and
+discharge the gate rapidly, while the 650~V rating is compatible with the
+high-voltage test objective, provided that enough margin is kept for switching
+overshoot.
+
+The CID10N65D5 package provides a dedicated Kelvin Source connection. This
+feature is important because it separates the gate-driver return path from the
+high-current power path. In the board, the low-side Kelvin reference is
+associated with \(KPGND\), while the high-side Kelvin reference is associated
+with \(KSN\), which follows the switching node \(SN\). This Kelvin connection
+helps reduce the effect of common source inductance on the effective
+gate-source voltage.
+
+A second version of the board is planned around SiC technology. This future
+version will reuse the same modular half-bridge architecture while adapting the
+power stage to higher-voltage and higher-power operating conditions.
+
+
+\newpage
+\section{Schematic Architecture and Reference Domains}
+
+The schematic of the GaN-based Half-Bridge Board is organized according to both functional blocks and electrical reference domains. Functionally, the board includes the control input and digital isolation stage, the isolated auxiliary supplies, the gate-driver stages, and the GaN half-bridge power stage. Electrically, the complete schematic is divided into four coloured domains: \(DGND/CMD\), \(PGND/LV\), \(SN\), and \(+VDC/HV\).
+
+This organization is necessary because a half-bridge converter does not operate with a single common reference. Some parts of the circuit are fixed with respect to the command ground, while other parts are referenced to the power ground, the switching node, or the positive DC bus. Figure~\ref{fig:half_bridge_schematic} shows the complete schematic and highlights these domains.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.10\textwidth]{images/Chapitre 3/half_bridge_schematic.png}
+    \caption{Schematic of the GaN Half-Bridge Board.}
+    \label{fig:half_bridge_schematic}
+\end{figure}
+
+The green area corresponds to the \(DGND\)-referenced command domain before isolation. The blue area is referenced to \(PGND\), the local reference of the low-side power domain. The red area follows \(SN\), the switching node of the half-bridge, while the yellow area is referenced to \(+VDC\), the positive terminal of the high-voltage DC bus.
+
+Identifying these domains clarifies the role of digital isolation, floating auxiliary supplies, and Kelvin-referenced gate driving. The following subsections describe the main functional blocks of the board.
+
+
+\subsection{Control Input and Digital Isolation}
+
+The first functional block corresponds to the control input and digital isolation stage, shown in Figure~\ref{fig:half_bridge_block1_digital_isolation}. This block belongs to the command side of the system and is referenced to \(DGND\) before isolation. It receives the command signals through the board-to-board connector \(U4\). These signals include the high-side PWM command, the low-side PWM command, and an enable signal.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/Chapitre 3/half_bridge_block1_digital_isolation.png}
+    \caption{Control input and digital isolation block.}
+    \label{fig:half_bridge_block1_digital_isolation}
+\end{figure}
+
+The PWM signals are transferred to the power side through two digital isolators, \(U1\) and \(U2\), implemented with ISO7721DWV devices. This isolation stage protects the low-voltage control electronics from the high-voltage switching environment and improves robustness against common-mode disturbances generated by the fast transitions of the GaN half-bridge.
+
+
+\subsection{Isolated Auxiliary Power Supplies}
+
+The second functional block corresponds to the isolated auxiliary power supplies. The board uses the external \(+12~V\) auxiliary input to generate the local supply voltages required by the gate-driver stages. In the schematic, this function is implemented using two separated isolated supply blocks: one for the high-side driver and one for the low-side driver.
+
+The high-side isolated supply is shown in Figure~\ref{fig:half_bridge_block2_isolated_supplies_haut}. It generates the floating supply required by the high-side driver. This supply is necessary because the high-side driver is referenced to \(KSN\), the Kelvin source reference of the high-side transistor. Since \(KSN\) follows the switching-node domain, the high-side driver cannot be referenced to the fixed power ground.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.00\textwidth]{images/Chapitre 3/half_bridge_block2_isolated_supplies_haut.png}
+    \caption{High-side isolated auxiliary power supply.}
+    \label{fig:half_bridge_block2_isolated_supplies_haut}
+\end{figure}
+
+The low-side isolated supply is shown in Figure~\ref{fig:half_bridge_block2_isolated_supplies_bas}. It provides the local supply voltage required by the low-side gate driver and is referenced to \(KPGND\). The net \(KPGND\) corresponds to the local Kelvin reference of the low-side driver supply. It is not supplied directly from the outside of the board. Instead, it is created on the secondary side of the isolated auxiliary supply dedicated to the low-side driver.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.00\textwidth]{images/Chapitre 3/half_bridge_block2_isolated_supplies_bas.png}
+    \caption{Low-side isolated auxiliary power supply.}
+    \label{fig:half_bridge_block2_isolated_supplies_bas}
+\end{figure}
+
+These supplies are based on VPS8701B devices, referenced as \(U10\) and \(U12\), associated with isolated transformers \(T2\) and \(T3\), referenced as VPT87DDF01B. After rectification using Schottky diodes and filtering capacitors, the output voltages are regulated using TL431 references, \(U14\) and \(U15\).
+
+The distinction between these driver references is essential for a GaN-based design. If the driver return path were directly mixed with the high-current power return path, parasitic voltage drops caused by common source inductance could disturb the effective gate-source voltage. Using a Kelvin-referenced driver ground helps keep the applied \(V_{GS}\) better controlled and reduces the risk of parasitic turn-on, ringing, or unstable switching behaviour.
+
+
+\subsection{Gate-Driver Stages}
+
+The third functional block contains the high-side and low-side gate-driver stages, shown in Figure~\ref{fig:half_bridge_block3_gate_drivers}. These stages convert the isolated PWM signals into gate-drive signals suitable for controlling the two GaN transistors of the half-bridge.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.60\textwidth]{images/Chapitre 3/half_bridge_block3_gate_drivers.png}
+    \caption{High-side and low-side gate-driver stages.}
+    \label{fig:half_bridge_block3_gate_drivers}
+\end{figure}
+
+The drivers are implemented using UCC27517DBVR devices, referenced as \(U3\) and \(U5\). The UCC27517 is a single-channel high-speed gate driver able to provide symmetrical peak source and sink currents of 4~A, with a typical propagation delay of 13~ns. It operates over a wide supply range from 4.5~V to 18~V and is suitable for driving wide-bandgap power devices such as GaN transistors~\cite{ucc27517_datasheet}.
+
+Each driver receives an isolated PWM signal and supplies the current required to charge and discharge the gate of the corresponding GaN transistor. The high-side driver is referenced to \(KSN\), which follows the switching node \(SN\), while the low-side driver is referenced to \(KPGND\). This allows each transistor to be driven with respect to its own local Kelvin reference.
+
+The gate resistors placed between the driver outputs and the GaN gates are used to tune the switching speed. A lower gate resistance increases the switching speed and can reduce switching losses, but it may also increase voltage overshoot, ringing, and electromagnetic interference. A higher gate resistance slows down the transitions and can improve stability, but at the cost of higher switching losses. Therefore, the selected values represent a compromise between efficiency, switching quality, and EMI behaviour.
+
+Additional resistors are used to keep the GaN transistors in a defined off-state when the drivers are inactive, during startup, or during fault conditions. This helps avoid unwanted switching caused by floating or undefined gate voltages.
+
+Two test points, \(RF1\) and \(RF2\), were added to the gate-drive paths. They allow the gate signals of both GaN transistors to be observed during testing, making it possible to verify the driver behaviour, measure the effective \(V_{GS}\), and analyse the turn-on and turn-off transitions.
+
+
+
+\subsection{GaN Half-Bridge Power Stage}
+
+The fourth functional block is the GaN half-bridge power stage. It is composed of two 650~V GaN-on-Silicon transistors, referenced as \(U8\) and \(U11\), connected between the high-voltage DC bus and the power ground. The high-side transistor connects the switching node \(SN\) to the positive DC bus \(+VDC\), while the low-side transistor connects \(SN\) to the power ground \(PGND\).
+
+The midpoint between the high-side and low-side transistors is named \(SN\). Depending on the PWM commands, this node is alternately connected to \(+VDC\) or to \(PGND\). Since it is exposed to large and fast voltage variations, its placement and routing are critical for limiting capacitive coupling, ringing, and EMI generation.
+
+The local DC-link capacitors, referenced as \(C5\) and \(C7\), are placed close to the half-bridge cell in order to provide the high-frequency switching current locally and reduce the commutation loop inductance.
+
+\newpage
+Figure~\ref{fig:half_bridge_commutation_loop} shows the physical implementation of this switching cell and the local DC-link capacitors on the PCB.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{images/Chapitre 3/half_bridge_commutation_loop.png}
+    \caption{GaN half-bridge switching cell and local DC-link capacitors.}
+    \label{fig:half_bridge_commutation_loop}
+\end{figure}
+
+The half-bridge structure also makes the board suitable for future experiments such as switching waveform analysis, double-pulse tests, gate-driving evaluation, and integration into larger converter structures.
+
+
+\section{Ground and Reference Domains}
+
+The digital ground \(DGND\) is associated with the external low-voltage
+auxiliary supply and the control input side, while the power ground
+\(PGND\) is the local reference of the high-voltage DC bus. When the
+board is tested alone, the external high-voltage supply is connected
+between \(+VDC\) and \(PGND\), which can then be considered as the local
+0~V reference of the power stage.
+
+However, \(PGND\) is not an absolute ground, only the reference node of
+the local power domain. For example, if two half-bridge boards are
+connected in series, the \(+VDC\) terminal of the first board can be
+connected to the \(PGND\) terminal of the second, giving the second
+board its own local reference, shifted with respect to the first. If
+each board operates with a 400~V DC bus, the \(PGND\) of the second
+board may sit at 400~V relative to the \(PGND\) of the first.
+
+This shows why isolation is essential when stacking or series-connecting
+power boards: control signals and auxiliary supplies must remain
+compatible with the local potential of each board, requiring either an
+independent isolated auxiliary supply per board or one with isolated
+outputs.
+
+The net \(KPGND\) is the local Kelvin reference of the low-side gate
+driver, while \(KSN\) is that of the high-side driver and follows the
+switching-node domain. These Kelvin references serve as return paths for
+the gate-drive currents and should be connected close to the Kelvin
+Source pins of the corresponding GaN transistors, reducing unwanted
+coupling between power current paths and gate-drive reference paths.
+
+\section{External Supplies for Board Testing}
+
+During standalone testing of the Half-Bridge Board, two external supplies are required. The first one is the low-voltage auxiliary supply connected between \(+12~V\) and \(DGND\). This supply powers the internal isolated converters and allows the board to generate the local gate-driver supplies.
+
+The second one is the high-voltage DC-bus supply connected between \(+VDC\) and \(PGND\). This supply provides the energy for the power switching stage. The voltage level applied to this bus depends on the test conditions and must be chosen with respect to the voltage rating of the GaN transistors, voltage derating, expected overshoots, and safety limitations.
+
+\(KPGND\) and \(KSN\) are not external supply inputs. They are local Kelvin references created by the gate-driver and power-stage architecture.
+
+Therefore, for a single board test, the required external connections can be summarized as follows:
+
+\begin{itemize}
+    \item \(+12~V\) and \(DGND\): auxiliary low-voltage input supply;
+    \item \(+VDC\) and \(PGND\): high-voltage DC-bus input;
+    \item PWM and enable signals: isolated control commands from the external controller or future control board.
+\end{itemize}
+
+
+
+\section{PCB Layout Considerations}
+
+The PCB layout of the Half-Bridge Board was designed to make the electrical domains physically clear and to keep the most critical switching paths compact. Figure~\ref{fig:half_bridge_pcb_layout} shows the complete routed board.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/Chapitre 3/half_bridge_pcb_layout.png}
+    \caption{PCB layout of the GaN-based Half-Bridge Board.}
+    \label{fig:half_bridge_pcb_layout}
+\end{figure}
+The layout follows a left-to-right functional organization. On the left,
+the control part is grouped in the \(DGND\)-referenced domain, containing
+the low-voltage command interface and associated circuitry. A vertical
+alignment of isolation components then marks the boundary between the
+low-voltage and high-voltage sides.
+
+To the right of this boundary, the gate-driver stages occupy two areas:
+the upper block for the high-side driver and the lower block for the
+low-side driver, following the half-bridge structure and simplifying
+routing between isolated signals, driver outputs, and GaN transistors.
+
+The power stage sits on the far right, containing the two GaN
+transistors forming the half-bridge and the switching node \(SN\), with
+local DC-link capacitors placed close by to reduce commutation loop
+inductance. Three threaded metal inserts on this side provide robust
+connection points for the main power nodes \(SN\), \(+VDC\), and
+\(PGND\), easing connection during testing and future integration.
+
+The routing strategy therefore aimed to separate control and power
+sides, make the isolation boundary explicit, and minimize parasitic
+elements in the switching cell, while also respecting high-voltage
+design constraints such as clearance, creepage, component spacing, and
+insulation barriers around the DC bus, switching node, and isolation
+components, discussed further in the next subsection.
+
+Figure~\ref{fig:half_bridge_3d_view} shows a 3D view of the routed board,
+giving a more physical representation of its organization and component
+placement.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{images/Chapitre 3/half_bridge_3d_view.png}
+    \caption{3D view of the routed Half-Bridge Board.}
+    \label{fig:half_bridge_3d_view}
+\end{figure}
+
+
+\subsection{Clearance and Creepage Considerations}
+
+In addition to the physical organization of the PCB, the layout must also respect insulation constraints related to high-voltage operation. In power electronics, two distances are particularly important: clearance and creepage. Clearance is the shortest distance through air between two conductive parts, while creepage is the shortest distance measured along the surface of the insulating material.
+
+Figure~\ref{fig:isolation_constraints} illustrates the insulation constraints considered for the converter environment. The board is designed in the context of an Overvoltage Category II environment. The figure also highlights the distinction between basic insulation and reinforced insulation between the low-voltage control domain and the high-voltage power domain.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{images/Chapitre 3/isolation1.drawio.png}
+    \caption{Clearance and creepage constraints.}
+    \label{fig:isolation_constraints}
+\end{figure}
+
+Since the board was routed as a single-layer PCB, there are no
+inner-layer insulation distances to consider, and the layout was based
+only on outer-layer clearance and creepage constraints: 4~mm creepage
+and 1.5~mm clearance for basic insulation, and 8~mm creepage and 3~mm
+clearance for reinforced insulation.
+
+Figure~\ref{fig:pcb_creepage_distances} shows how these insulation distances were applied on the PCB layout. The 8~mm distance is used between the \(DGND\)-referenced control domain and the high-voltage power domain, corresponding to the reinforced insulation requirement. The 4~mm distance is used between high-voltage power nodes where basic insulation is required, for example around the switching cell and between power-domain conductors such as \(SN\), \(+VDC\), and \(PGND\).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.00\textwidth]{images/Chapitre 3/creep.png}
+    \caption{Application of clearance and creepage distances.}
+    \label{fig:pcb_creepage_distances}
+\end{figure}
+
+These values were used as practical layout guidelines to maintain safe separation between the different electrical domains of the board and to prepare the design for future safety analysis and pre-certification work.
+
+
+\subsection{Aluminium-Based Substrate and End-of-Life}
+
+A particular aspect of the Half-Bridge Board is the use of an aluminium-based insulated metal substrate (IMS), also known as a metal-core PCB, instead of a conventional FR4 substrate. This choice is mainly driven by thermal management requirements. However, it also introduces additional design aspects related to material selection, dielectric insulation, manufacturing processes, and end-of-life recovery. In this type of structure, the substrate is not only a mechanical support; it also becomes a functional part of the converter, since it contributes to heat spreading, electrical insulation, and mechanical integration.
+
+A conventional FR4 PCB is based on a glass-fibre reinforced epoxy thermoset composite combined with one or several copper layers. This material is widely used because it is low-cost, mechanically stable, electrically insulating, and compatible with multilayer PCB manufacturing. However, its thermal conductivity is limited. Published measurements for glass-fibre PCB laminates report through-thickness thermal conductivity values of about 0.29--0.34~W/m$\cdot$K, with higher in-plane values due to fibre orientation and copper distribution~\cite{azar1996pcb_thermal,sarvar1990pcb_thermal}. This low through-thickness thermal conductivity can become a limitation in power electronics, especially when the heat losses are concentrated around power semiconductor devices.
+
+In comparison, an aluminium IMS PCB is generally composed of three main layers: a copper circuit layer, a thermally conductive and electrically insulating dielectric layer, and an aluminium base plate~\cite{godbold1997thermal_power_modules,allpcb_ims_thermal,fastturn_mcpcb}. This stack-up is illustrated in Figure~\ref{fig:ims_stackup}. The copper layer provides the electrical routing, the dielectric layer ensures electrical insulation between the circuit and the metal base, and the aluminium plate acts as a mechanical support and thermal spreading layer.
+
+\begin{figure}[H]
+    \centering
+    \IfFileExists{images/Chapitre 3/ims_stackup.png}{%
+        \includegraphics[width=0.65\textwidth]{images/Chapitre 3/ims_stackup.png}%
+    }{%
+        \fbox{\parbox[c][4.0cm][c]{0.82\textwidth}{\centering}}%
+    }
+    \caption{Layer stack-up of an aluminium insulated metal substrate.}
+    \label{fig:ims_stackup}
+\end{figure}
+
+From a thermal point of view, the IMS substrate should not be compared to FR4 by considering only the aluminium base. Aluminium has a much higher thermal conductivity than FR4, with typical values around 200~W/m$\cdot$K for aluminium bases, while copper is around 400~W/m$\cdot$K~\cite{allpcb_ims_thermal}. However, the complete IMS structure also includes the dielectric layer, whose thermal conductivity is much lower than that of metals. As a result, the dielectric layer introduces an additional thermal resistance and often becomes the limiting element in the vertical heat path.
+
+To compare the complete IMS stack-up with FR4, an equivalent through-thickness thermal conductivity can be estimated. The heat flow is assumed to cross the copper, dielectric, and aluminium layers in series. The thermal resistance per unit area of the IMS stack-up is therefore given by:
+
+\begin{equation}
+R''_{\mathrm{th,IMS}} =
+\sum_i \frac{e_i}{\lambda_i}
+=
+\frac{e_{\mathrm{Cu}}}{\lambda_{\mathrm{Cu}}}
++
+\frac{e_{\mathrm{diel}}}{\lambda_{\mathrm{diel}}}
++
+\frac{e_{\mathrm{Al}}}{\lambda_{\mathrm{Al}}}
+\end{equation}
+
+where \(R''_{\mathrm{th,IMS}}\) is the thermal resistance per unit area of the IMS stack-up, \(e_i\) is the thickness of layer \(i\), and \(\lambda_i\) is its thermal conductivity. The equivalent through-thickness thermal conductivity of the complete IMS structure can then be written as:
+
+\begin{equation}
+\lambda_{\mathrm{eq,IMS}} =
+\frac{e_{\mathrm{tot}}}{R''_{\mathrm{th,IMS}}}
+\end{equation}
+
+with:
+
+\begin{equation}
+e_{\mathrm{tot}} =
+e_{\mathrm{Cu}} + e_{\mathrm{diel}} + e_{\mathrm{Al}}
+\end{equation}
+
+Using representative values for an IMS substrate, the layer thicknesses and thermal conductivities considered in the estimation are summarized in Table~\ref{tab:ims_stackup_values}.
+
+\begin{table}[H]
+    \centering
+    \caption{Representative parameters used for the equivalent thermal conductivity estimation of the IMS stack-up.}
+    \label{tab:ims_stackup_values}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Layer} & \textbf{Thickness} & \textbf{Thermal conductivity} \\
+        \hline
+        Copper circuit layer & \(70~\mu\mathrm{m}\) & \(400~\mathrm{W/m\cdot K}\) \\
+        \hline
+        Dielectric layer & \(100~\mu\mathrm{m}\) & \(2~\mathrm{W/m\cdot K}\) \\
+        \hline
+        Aluminium base & \(1.5~\mathrm{mm}\) & \(200~\mathrm{W/m\cdot K}\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Using these values, the equivalent through-thickness thermal conductivity is approximately:
+
+\begin{equation}
+\lambda_{\mathrm{eq,IMS}} \approx 29~\mathrm{W/m\cdot K}
+\end{equation}
+
+This value is much lower than the thermal conductivity of aluminium alone because the dielectric layer dominates the thermal resistance of the stack-up. However, it remains much higher than the through-thickness thermal conductivity of FR4. Using \( \lambda_{\mathrm{FR4}} \approx 0.3~\mathrm{W/m\cdot K} \), the improvement factor can be estimated as:
+
+\begin{equation}
+\frac{\lambda_{\mathrm{eq,IMS}}}{\lambda_{\mathrm{FR4}}}
+\approx
+\frac{29}{0.3}
+\approx 100
+\end{equation}
+
+This estimation shows that the complete IMS stack-up can provide a through-thickness equivalent thermal conductivity about two orders of magnitude higher than FR4. Nevertheless, the result strongly depends on the dielectric layer thickness and thermal conductivity. Therefore, the thermal advantage of the IMS substrate comes from the complete stack-up design, and not from the aluminium base alone.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Thermal comparison between FR4 and a aluminium IMS stack-up.}
+    \label{tab:fr4_ims_thermal_comparison}
+    \begin{tabular}{|p{4.2cm}|p{3.8cm}|p{6.4cm}|}
+        \hline
+        \textbf{Material or structure} & \textbf{Thermal conductivity} & \textbf{Comment} \\
+        \hline
+        FR4 laminate, through-thickness & 0.29--0.34~W/m$\cdot$K & Low vertical heat transfer capability \\
+        \hline
+        Aluminium base & $\sim$200~W/m$\cdot$K & High thermal conductivity and heat spreading capability \\
+        \hline
+        Copper circuit layer & $\sim$400~W/m$\cdot$K & Very high thermal conductivity, but limited to the routing layer \\
+        \hline
+        Complete IMS stack-up, representative estimation & $\sim$29~W/m$\cdot$K & Equivalent through-thickness value limited by the dielectric layer \\
+        \hline
+    \end{tabular}
+\end{table}
+
+This comparison highlights the key role of the dielectric layer in an aluminium IMS substrate. The aluminium base provides efficient heat spreading, but the dielectric layer must simultaneously ensure electrical insulation and thermal transfer. As a consequence, its thickness, thermal conductivity, dielectric strength, and adhesion to the neighbouring layers are critical parameters for the performance.
+
+
+\subsubsection{End-of-Life Comparison Between FR4 and Aluminium IMS}
+
+The end-of-life behaviour of the substrate must be analysed at the level of the complete material stack, not only by considering one material in isolation. This is particularly important for aluminium IMS substrates. Although the base plate is made of aluminium, the complete substrate is a laminated stack composed of copper, dielectric material, and aluminium.
+For conventional FR4 PCBs, the recycling process is generally driven by metal recovery. Waste printed circuit boards are heterogeneous materials containing both metallic and non-metallic fractions. Literature reviews report that discarded PCBs typically contain about 30--50\% metallic fraction and 50--70\% non-metallic fraction~\cite{dpcb_review_2024}. The metallic fraction contains copper and, depending on the board type, other metals such as tin, nickel, silver, gold, or palladium. The non-metallic fraction mainly contains glass fibres, epoxy resin, plastics, and additives.
+
+The main limitation of FR4 recycling comes from this non-metallic fraction. FR4 is based on a thermoset epoxy matrix reinforced with glass fibres. Once cured, the epoxy cannot be remelted like a thermoplastic material. Therefore, even if the metallic fraction can be recovered by mechanical, pyrometallurgical, or hydrometallurgical processes, the glass-fibre/epoxy fraction remains difficult to valorize. Recent studies on waste PCB recycling show that the separation of metallic and non-metallic fractions remains a central challenge in PCB recycling~\cite{duarte2023separation}.
+
+The situation is different for an aluminium IMS substrate. The substrate contains two valuable metallic fractions: the copper circuit layer and the aluminium base. However, these materials are not directly separable because they are strongly bonded by the dielectric layer. The dielectric material is essential during operation because it provides electrical insulation, thermal transfer, and mechanical adhesion between the copper and the aluminium. However, this strong adhesion becomes a difficulty at end of life.
+
+Therefore, the main recycling challenge of an aluminium IMS substrate is not the intrinsic recyclability of aluminium, but the separation of the laminated stack. If the copper layer, dielectric layer, and aluminium base cannot be separated efficiently, the substrate must be processed as a mixed electronic waste fraction. This can reduce the purity and value of the recovered materials. A selective separation process, such as mechanical delamination, thermal treatment, or chemical treatment, could improve the recovery of copper and aluminium, but its effectiveness depends strongly on the dielectric material and on the manufacturing process used for the IMS substrate.
+
+To illustrate this point quantitatively, a mass balance can be estimated using the representative stack-up parameters already introduced in Table~\ref{tab:ims_stackup_values} (\(70~\mu\mathrm{m}\) copper, \(100~\mu\mathrm{m}\) dielectric, \(1.5~\mathrm{mm}\) aluminium), combined with typical material densities (\(\rho_{\mathrm{Cu}} \approx 8960~\mathrm{kg/m^3}\), \(\rho_{\mathrm{Al}} \approx 2700~\mathrm{kg/m^3}\), and \(\rho_{\mathrm{diel}} \approx 1900~\mathrm{kg/m^3}\) for a ceramic-filled epoxy dielectric). The mass per unit area of each layer is then:
+
+\begin{equation}
+m_i = e_i \cdot \rho_i
+\end{equation}
+
+which gives approximately \(4.05~\mathrm{kg/m^2}\) for the aluminium base, \(0.63~\mathrm{kg/m^2}\) for the copper layer, and \(0.19~\mathrm{kg/m^2}\) for the dielectric layer. On this basis, the metallic fraction, corresponding to aluminium and copper combined, represents approximately 96\% of the total substrate mass, while the dielectric layer accounts for only about 4\%. This is a markedly different composition compared to the 30--50\% metallic and 50--70\% non-metallic fractions typically reported for discarded FR4-based PCBs~\cite{dpcb_review_2024}. This mass balance supports the argument that, if the copper/dielectric/aluminium stack can be efficiently separated, the recoverable metallic fraction of an aluminium IMS substrate is potentially much larger than that of an equivalent FR4 board.
+
+This substantial difference indicates that aluminium IMS substrates may represent an attractive recovery stream. However, this potential can only be realized if an efficient delamination or separation process is developed for the copper/dielectric/aluminium stack.
+
+For comparison, an aluminium composite panel with two \(0.3~\mathrm{mm}\) aluminium skins contains approximately \(1.62~\mathrm{kg/m^2}\) of aluminium, while a panel with two \(0.5~\mathrm{mm}\) skins contains approximately \(2.70~\mathrm{kg/m^2}\). The representative IMS substrate considered here contains \(4.05~\mathrm{kg/m^2}\) of aluminium in the base plate alone. This comparison highlights the high aluminium content of the IMS substrate, but it does not imply that the same separation efficiency as ACP recycling can be achieved.
+
+Although no dedicated recycling process for aluminium IMS PCBs was identified in the literature, mechanical separation processes for structurally similar metal-polymer laminates already exist at industrial scale. Aluminium composite panels (ACP), which combine thin aluminium sheets with a polymer-based core, are routinely processed using dry mechanical routes such as shredding, crushing, grinding, and electrostatic separation~\cite{acp_separation}. These processes are relevant as a technological analogue because they address the same general issue: the separation of bonded metallic and non-metallic layers.
+
+However, the analogy with ACP recycling should be interpreted carefully. ACP products are generally aluminium/polymer laminates, whereas IMS substrates are copper/dielectric/aluminium stacks. In addition, the IMS dielectric layer is not a simple polymer core, but a functional insulating layer, often based on a ceramic-filled thermoset polymer, designed to provide electrical insulation, heat transfer, and strong adhesion between copper and aluminium. Therefore, ACP recycling demonstrates the industrial feasibility of separating some aluminium/polymer laminates, but it should not be considered direct evidence that IMS substrates can be recycled with the same efficiency.
+
+Consequently, the ACP comparison is used here only as a technological reference, not as a basis for estimating an IMS recycling yield. The actual recovery efficiency of aluminium and copper from IMS substrates would depend on the ability to delaminate or fragment the copper/dielectric/aluminium stack, the purity of the separated fractions, the energy demand of the process, and the specific chemistry of the dielectric material.
+
+
+\newpage
+Table~\ref{tab:fr4_ims_recycling_comparison} summarizes the main end-of-life differences between FR4 and aluminium IMS substrates.
+
+\begin{table}[H]
+    \centering
+    \caption{End-of-life comparison between FR4 and aluminium IMS PCB substrates.}
+    \label{tab:fr4_ims_recycling_comparison}
+    \begin{tabular}{|p{3.5cm}|p{5.2cm}|p{5.3cm}|}
+        \hline
+        \textbf{Criterion} & \textbf{FR4 PCB} & \textbf{Aluminium IMS PCB} \\
+        \hline
+        Main substrate nature & Glass-fibre/epoxy thermoset composite & Laminated stack: copper / dielectric / aluminium \\
+        \hline
+        Main recycling difficulty & Non-metallic glass/epoxy fraction is hard to valorize & Separation of the bonded copper/dielectric/aluminium stack \\
+        \hline
+        End-of-life advantage & Mature metal recovery routes for copper and precious metals & High aluminium and copper content, potentially recoverable if separation is achieved \\
+        \hline
+        Key uncertainty & Valorization of the non-metallic fraction & Delamination efficiency, metal purity, and influence of the dielectric formulation \\
+        \hline
+    \end{tabular}
+\end{table}
+
+This comparison shows that an aluminium IMS substrate should not be presented as automatically recyclable. Its potential advantage comes from the presence of a large metallic aluminium base and a copper circuit layer, but this potential is only meaningful if the different layers can be separated or treated efficiently. In other words, the IMS substrate shifts the recycling issue: instead of dealing mainly with a glass-fibre/epoxy composite as in FR4, the challenge becomes the recovery of valuable metallic layers from a strongly bonded copper/dielectric/aluminium stack.
+
+\newpage    
+\section{Current State and Next Steps}
+
+At the current stage of the internship, the schematic design and the PCB routing of the GaN-based Half-Bridge Board have been completed. This represents an important step toward the development of a modular high-voltage power stage for future OwnTech converter platforms.
+
+The next step of the project is the design of the upper control board. This board will provide the command and interface functions required to drive the Half-Bridge Board. It is expected to generate or transmit the PWM signals, manage the enable signal, provide a safe interface with the controller, and support repeatable experimental tests.
+
+After the completion of the control board, the next phase will be the laboratory validation of the complete system. The first tests will focus on low-voltage functional validation, verification of the isolated supplies, validation of the gate-driver outputs, and observation of the switching node waveform. Higher-voltage tests can then be performed progressively while monitoring switching quality, thermal behaviour, and electromagnetic disturbances.
+
+The Half-Bridge Board therefore represents both a completed design task and a foundation for the following stages of the internship. The work carried out on this board includes the definition of the modular architecture, the separation of the electrical reference domains, the integration of isolated supplies and gate-driver stages, and the PCB layout of a compact high-speed switching cell. It provides the power platform required to investigate GaN-based conversion and to prepare future validation methods for high-voltage and high-power open-source converters.

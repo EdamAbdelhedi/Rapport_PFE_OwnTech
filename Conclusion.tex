@@ -1,1 +1,34 @@
 \chapter*{Conclusion}
+\phantomsection
+\addcontentsline{toc}{chapter}{Conclusion}
+
+This internship addressed two complementary aspects of open-source power
+electronics development: the validation of existing platforms and the
+preparation of future high-voltage converter modules.
+
+The first part focused on the SPIN Oscilloscope Shield. The SPOC board was
+designed to route selected SPIN signals to oscilloscope channels and to support
+automated hardware validation. The tests confirmed that the main routing paths
+operate correctly through the multiplexer network and that the shield can be
+used as a practical measurement interface.
+
+The software developed around the SPOC board completes this validation platform. The \texttt{Core-CUT} firmware generates configurable test signals, the \texttt{Core-MUX} firmware selects the measurement paths, and the Python host software coordinates the oscilloscope and the validation procedure. This architecture makes the tests faster, more repeatable, and less dependent on manual oscilloscope manipulation. It also demonstrated its usefulness by identifying and analysing a burst-mode timing issue in the tested PWM generation framework.
+
+The second part focused on the design of a GaN-based Half-Bridge Board. The
+schematic and PCB routing were completed around a modular power-stage
+architecture including digital isolation, isolated auxiliary supplies, gate
+drivers, GaN transistors, local DC-link capacitors, and clearly separated
+reference domains. This board prepares future work on higher-voltage and
+higher-power applications, where layout, insulation, gate driving, thermal
+behaviour, and electromagnetic disturbances become critical.
+
+The substrate analysis showed that aluminium IMS improves thermal performance,
+but also introduces manufacturing and end-of-life constraints.
+
+Overall, the internship contributed to OwnTech's objective of building power
+electronics hardware that is more open, modular, testable, and maintainable.
+The SPOC platform strengthens the validation workflow of existing boards, while
+the GaN Half-Bridge Board provides a basis for future experimental work. The
+next steps are the design of the half-bridge control board and progressive
+laboratory validation of the GaN power stage, first at safe low voltage and then
+under high-voltage operating conditions.

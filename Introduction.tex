@@ -1,22 +1,65 @@
 \chapter*{Introduction}
+\phantomsection
+\addcontentsline{toc}{chapter}{Introduction}
 
-%\vspace{1 cm}
-%This project pursues two main objectives:
+Power electronics is a central technology for the energy transition. It makes
+it possible to convert, control, and exchange electrical energy between
+photovoltaic panels, batteries, motors, electrical grids, and embedded systems.
+However, the design of power converters remains technically demanding because it
+combines hardware design, real-time control, embedded software, measurement,
+thermal management, electromagnetic compatibility, safety, and life-cycle
+constraints.
 
-%\begin{itemize}
-%\item
-%  to design and validate the SPIN Oscilloscope Shield, a board used to route
-%  selected SPIN signals toward oscilloscope inputs for automated hardware
-%  validation;
-%\item
-%  to start the design of a GaN-based half-bridge board intended for high-speed
-%  switching experiments and future high-power converter development.
-%\end{itemize}
+\vspace{0.4cm}
 
-%This report is organized as follows. Chapter~1 presents OwnTech, its
-%open-source power electronics environment, and the general internship context.
-%Chapter~2 focuses on the SPIN Oscilloscope Shield, including the hardware
-%architecture, PCB design, software environment, and validation results.
-%Chapter~3 introduces the GaN half-bridge board, its motivation, its functional
-%architecture, and the main design constraints related to high-speed and
-%high-voltage power electronics.
+This internship was carried out within the OwnTech ecosystem, whose objective
+is to make power electronics more accessible through open-source hardware,
+modular converter platforms, reusable software, and transparent documentation.
+In this context, the work presented in this report contributes to two
+complementary needs. The first one is validation: before a board can be reused
+or integrated in a larger open hardware platform, its behaviour must be tested
+in a repeatable and automated way. The second one is the preparation of future
+high-voltage and high-power converter modules, where wide-bandgap devices such
+as GaN and SiC introduce new constraints in switching speed, insulation,
+thermal management, and PCB layout.
+
+\vspace{0.4cm}
+
+The internship work was therefore organized around two main technical projects.
+The first project concerns the design and validation of the SPIN Oscilloscope
+Shield, also called SPOC. It routes selected signals from a SPIN board under
+test toward oscilloscope inputs. Associated firmware and Python software were
+developed to automate the configuration of the board, generate test signals,
+control the oscilloscope, and evaluate the measured waveforms. The goal is to
+reduce manual probing and make hardware validation more systematic.
+
+\vspace{0.4cm}
+
+The second project concerns the design of a GaN-based Half-Bridge Board,
+intended as an experimental power stage for high-speed switching tests and
+future high-voltage converter development. It integrates digital isolation,
+isolated auxiliary supplies, gate-driver stages, two 650~V GaN transistors, and
+a compact half-bridge switching cell. Particular attention is given to reference
+domains, gate driving, commutation loops, creepage and clearance distances, and
+the choice of an aluminium-based insulated metal substrate.
+
+\vspace{0.4cm}
+
+Beyond the practical design of the boards, this report also discusses the link
+between modular power electronics and sustainability. In an open-source
+hardware context, sustainability is not limited to efficiency during operation.
+It also depends on documentation, testability, maintainability, repairability,
+upgradeability, material choices, and end-of-life recovery. The discussion on
+FR4 and aluminium-based substrates is included in this perspective.
+
+\vspace{0.4cm}
+
+This report is organized as follows. Chapter~1 presents OwnTech, its
+open-source power electronics environment, and the general internship context.
+It also introduces the state of the art related to modularity, obsolescence,
+documentation, and sustainable power electronics. Chapter~2 focuses on the SPOC
+board, including its hardware architecture, PCB design, software environment,
+automatic validation method, and experimental results. Chapter~3 presents the
+GaN Half-Bridge Board, its motivation, its functional architecture, its
+high-voltage and high-speed design constraints, and the discussion on
+aluminium-based substrates and end-of-life considerations.

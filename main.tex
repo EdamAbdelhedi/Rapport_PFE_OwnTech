@@ -37,6 +37,7 @@
 \usepackage{siunitx}
 \usepackage{titlesec}
 \usepackage{url}
+\usepackage[none]{hyphenat}
 \Urlmuskip=0mu plus 2mu\relax
 
 \graphicspath{
@@ -45,6 +46,7 @@
     {images/Chapitre 2/}
 }
 \setkeys{Gin}{keepaspectratio}
+
 \makeatletter
 \setlength{\@fptop}{0pt}
 \setlength{\@fpsep}{12pt plus 2pt minus 2pt}
@@ -64,36 +66,49 @@
 
 % title page
 \input{./title.tex}
-
-\newpage
-\input{abbreviations}
-
-\newpage
-~
 \thispagestyle{empty}
 
+% Roman numbering: i, ii, iii, iv...
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\input{Dedication}
+
+\newpage
+\input{Acknowledgements}
+
+\newpage
 \tableofcontents
+
+\newpage
 \listoffigures
 
+\newpage
+\listoftables
+
 \newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
-\thispagestyle{empty}
 
 \newpage
-\setcounter{page}{0}
-
 \renewcommand{\arraystretch}{1.5}
 
 % === Chapter inclusions ===
 
-~
-\thispagestyle{empty}
+\input{abbreviations}
 
-\input{Acknowledgements}
+% Arabic numbering starts from Introduction: 1, 2, 3...
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
 \input{Introduction}
 \input{Chapter 1}
 \input{Chapter 2}
 \input{Chapter 3}
 \input{Conclusion}
+\input{Conclusion}
+
+\let\cleardoublepage\clearpage
 \input{Appendix}
 
 \newpage
@@ -101,7 +116,6 @@
 \small
 \sloppy
 \setlength{\emergencystretch}{4em}
-\nocite{owntech_values}
 \bibliographystyle{unsrt}
 \bibliography{references}
 \endgroup

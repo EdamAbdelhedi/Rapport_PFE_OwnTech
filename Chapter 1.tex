@@ -21,45 +21,42 @@ and electromagnetic compatibility.
 The OwnTech structure combines an open-science foundation and an industrial
 company. The OwnTech Foundation is placed under the aegis of the CNRS
 Foundation and has existed since July 2022, while OwnTech Technologies was
-created in October 2023. This organization makes it possible to keep the
-project open and community-oriented while also supporting industrial
-development and deployment. In the company presentation material, Mr. Jean
-Alinei is presented as CEO of OwnTech Technologies, while Dr. Luiz Villa is
-one of the co-founders of OwnTech. This structure illustrates the link between
-engineering, research, and product development inside the OwnTech ecosystem.
+created in October 2023, keeping the project open and community-oriented
+while supporting industrial development. In the company presentation
+material, Mr. Jean Alinei is presented as CEO of OwnTech Technologies, while
+Dr. Luiz Villa is a co-founder of OwnTech. This structure illustrates the
+link between engineering, research, and product development inside the
+OwnTech ecosystem.
 
-The objective of OwnTech is to reduce this complexity by providing a complete
-open-source technology suite for power electronics. This suite combines
-standard and reprogrammable power hardware, a simplified development
-environment, software libraries, documentation, and tools for monitoring and
-experimentation~\cite{owntech_home,owntech_docs}. Instead of designing a
-dedicated converter from zero for each application, the user can start from a
-common hardware and software base and adapt it to the required conversion
-function.
+The objective of OwnTech is to reduce this complexity by providing a
+complete open-source technology suite for power electronics, combining
+reprogrammable power hardware, a simplified development environment,
+software libraries, and monitoring tools~\cite{owntech_home,owntech_docs}.
+Instead of designing a dedicated converter from zero for each application,
+the user can start from a common hardware and software base and adjust it
+to the required function.
 
-This open-source approach also concerns the hardware itself. OwnTech highlights
-public and editable resources such as design files, bills of materials,
-assembly information, CAD files, documentation, and contribution material
-~\cite{owntech_home}. This is important for education and research, because
-users can inspect the platform, reproduce experiments, and adapt the design to
-specific constraints.
+This open-source approach also concerns the hardware itself. OwnTech
+highlights public and editable resources such as design files, bills of
+materials, assembly information, and CAD files~\cite{owntech_home}. Users
+can therefore inspect the platform, reproduce experiments, and tailor the
+design to specific constraints.
 
 The project follows the principle summarized by OwnTech as ``one hardware,
-many functions''. A single programmable power electronics platform can be used
-for several applications, such as battery charging, photovoltaic energy
-conversion, laboratory power supplies, motor control, LED driving, isolated
-systems, or small renewable-energy installations~\cite{owntech_home}. This
-approach is particularly useful for education, research, and prototyping,
-because the same hardware ecosystem can be reused to test different converter
-topologies and control strategies.
+many functions''. A single programmable platform can be used for several
+applications, such as battery charging, photovoltaic conversion, motor
+control, LED driving, or small renewable-energy
+installations~\cite{owntech_home}. This versatility makes the platform
+especially useful for prototyping, since the same ecosystem can be reused
+to test different converter topologies and control strategies.
 
-This accessibility objective can be understood by comparison with other open
-electronics platforms. Arduino made embedded electronics accessible to a large
-community of users.
+This accessibility objective can be understood by comparison with other
+open electronics platforms. Arduino made embedded electronics accessible
+to a large community of users.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.38\textwidth]{Arduino.jpeg}
+\includegraphics[width=0.30\textwidth]{Arduino.jpeg}
 \caption{Arduino board.}
 \label{fig:arduino_accessibility}
 \end{figure}
@@ -69,7 +66,7 @@ education, prototyping, and embedded projects.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.38\textwidth]{Raspberry_Pi.jpg}
+\includegraphics[width=0.28\textwidth]{Raspberry_Pi.jpg}
 \caption{Raspberry Pi board.}
 \label{fig:raspberry_pi_accessibility}
 \end{figure}
@@ -79,67 +76,54 @@ especially for children, beginners, and educational activities.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.34\textwidth]{microbit.jpeg}
+\includegraphics[width=0.25\textwidth]{microbit.jpeg}
 \caption{Micro:bit board.}
 \label{fig:microbit_accessibility}
 \end{figure}
 
 OwnTech follows the same accessibility logic in the field of power
-electronics. After these well-known examples, the next step is to present the
-OwnTech boards available in its ecosystem: first the SPIN control board, then
-the TWIST power module, and finally the OwnVerter three-phase converter.
+electronics. After these well-known examples, the next step is to present
+the SPIN control board, which was the main hardware platform used during
+this internship.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\textwidth]{owntech_sandbox.jpg}
+\includegraphics[width=1.10\textwidth]{owntech_sandbox.jpg}
 \caption{OwnTech technology sandbox.}
 \label{fig:owntech_sandbox}
 \end{figure}
 
 The OwnTech approach can also be described as a user-centric technology
-sandbox. This sandbox connects different communities, such as academia,
-industry, makers, and fablabs, to a common set of tools. These tools include
-standard hardware, an intuitive IDE, unified documentation, and open data
-monitoring. The goal is not only to provide electronic boards, but to provide
-all the elements required to create, test, share, and improve power electronics
-applications.
+sandbox, connecting academia, industry, makers, and fablabs to a common set
+of tools, including standard hardware, an intuitive IDE, unified
+documentation, and open data monitoring, so as to provide all the elements
+required to create, test, share, and improve power electronics applications.
 
-This organization creates impact in two ways. First, it helps new ideas become
-real applications in areas such as smart grids, electrical mobility, energy
-storage, and renewable energy. Second, it supports learning by doing: students,
-engineers, researchers, and makers can experiment on an open platform and
-exchange with the community. This is consistent with the OwnTech objective of
-giving users the tools they need to act for the energy transition.
+This organization creates impact by helping new ideas become real
+applications in areas such as smart grids, electrical mobility, and energy
+storage, and by supporting learning by doing, as students, engineers, and
+makers experiment on an open platform and exchange with the community,
+consistent with the OwnTech objective of giving users the tools they need to
+act for the energy transition.
 
 \section{OwnTech Boards and Tools}
 
-The OwnTech ecosystem is organized as a modular set of hardware boards and
-software tools dedicated to power electronics. Among the main elements
-presented by OwnTech are the SPIN control board, the TWIST power module, and
-the OwnPlot monitoring interface~\cite{owntech_home,owntech_spin,owntech_twist}.
-Other boards and application-specific modules can also be part of this
-ecosystem depending on the target converter, the required power level, and the
-type of experiment. For example, the OwnVerter board extends the same approach
-toward three-phase and motor-control applications. Together, these elements
-allow the user to control, power, measure, debug, and monitor converter
-applications within a coherent open-source environment.
-This corresponds to a software-defined power conversion approach: the hardware
-provides the electrical interface, while the software defines the converter
-behaviour through PWM generation, measurements, protections, communication, and
-control algorithms.
+The OwnTech ecosystem is a modular set of hardware boards and software tools
+for power electronics, covering control, power conversion, measurement,
+debugging, and monitoring~\cite{owntech_home,owntech_spin,owntech_twist}. Its
+main elements are the SPIN control board, the TWIST power module, the
+OwnVerter three-phase converter, and the OwnPlot monitoring interface, which
+together let the user control, power, measure, and monitor converter
+applications within a coherent open-source environment. This reflects a
+software-defined power conversion approach, where the hardware provides the
+electrical interface while the software defines the converter behaviour
+through PWM generation, measurements, protections, and control algorithms.
 
 \subsection{Main OwnTech Boards}
 
-OwnTech is built around modular boards and software tools that cover the main
-needs of a power converter: control, power conversion, measurement, debugging,
-and monitoring. The main boards presented in this report are SPIN, TWIST, and
-OwnVerter. SPIN is the OwnTech power controller board used to generate PWM signals,
-acquire measurements, and execute real-time control algorithms. TWIST is a
-programmable and stackable power module for DC and AC applications up to
-110~V~\cite{owntech_twist}. OwnVerter extends the same approach toward
-three-phase motor-control applications. The OwnPlot software interface
-completes these boards by allowing the user to interact with the application
-and monitor internal variables during operation~\cite{owntech_docs}.
+Table~\ref{tab:owntech_boards} summarizes the main OwnTech boards and tools
+used in this project: SPIN, TWIST, OwnVerter, and
+OwnPlot~\cite{owntech_twist,owntech_docs}.
 
 \begin{table}[H]
 \centering
@@ -163,18 +147,15 @@ internal variables during operation. \\ \hline
 \end{tabularx}
 \end{table}
 
-Designing a power converter is not an easy task. With OwnTech, the user works
-inside a unified environment where the hardware and software are already
-compatible and ready to be customized. A simplified graphical interface helps
-the user take control of the converter quickly, while the development
-environment allows the application to be adapted to the required use case.
+With OwnTech, the user works inside a unified environment where the hardware
+and software are already compatible, with a simplified graphical interface
+for quick control and a development environment for adapting the application
+to the required use case.
 
-Once the application is ready, it can be deployed in real operating conditions,
-and usage data can be collected through the included monitoring platform. The
-user also has access to extended documentation, from calculation notes to user
-manuals. Finally, the community dimension is important: users can share their
-results, discuss problems, and receive support while building their own
-applications.
+Once deployed, usage data can be collected through the monitoring platform,
+and users can rely on extended documentation, from calculation notes to user
+manuals, as well as community support for sharing results and solving
+problems.
 
 \begin{figure}[H]
 \centering
@@ -183,9 +164,9 @@ applications.
 \label{fig:owntech_user_environment}
 \end{figure}
 
-For this report, the most important board is SPIN, because it was the central
-controller used during the internship and is also used as a reusable control
-board for several OwnTech converter platforms.
+For this report, the SPIN board is detailed further, as it was the central
+controller used during the internship and is also a reusable control board
+for several OwnTech converter platforms.
 
 \subsection{SPIN Control Board}
 
@@ -255,61 +236,6 @@ to the validation of SPIN-based hardware and software behaviour.
 In the second project, the same control needs appear at a higher switching
 performance level: accurate PWM generation, dead-time control, isolation, and
 safe switching sequences are required for the GaN half-bridge board.
-
-\subsection{TWIST Power Module}
-
-TWIST is the OwnTech reprogrammable power module. It is designed as a
-bidirectional 300~W converter with two low-side channels and one high-side
-channel. According to the TWIST datasheet, the low-side voltage range is
-12--72~V, the high-side voltage range is up to 100~V in normal operation, and
-the board can deliver up to 8~A per low-side channel or 16~A when the channels
-are used in parallel.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.62\textwidth]{twist.jpeg}
-\caption{OwnTech TWIST power module.}
-\label{fig:twist_board}
-\end{figure}
-
-The board can be used in several configurations. The two low-side channels may
-operate independently to provide two outputs, or they may be combined to
-increase the available current. TWIST can be used for DC/DC buck conversion,
-boost conversion, independent output operation, low-voltage inverter
-experiments, and power-factor-correction studies. This makes it a practical
-platform for learning, prototyping, and validating power electronics control
-functions.
-
-TWIST is compatible with the SPIN board or other programming systems and
-supports communication through CAN-bus and RS-485. Its measurement chain
-provides observability of voltages, currents, and temperatures, which is
-important for closed-loop control and experimental validation.
-
-\subsection{OwnVerter Board}
-
-OwnVerter extends the OwnTech ecosystem toward higher power and three-phase
-applications. It is described in its datasheet as a reprogrammable 1.3~kW
-three-phase converter designed mainly for motor-control applications. Unlike
-TWIST, which is more general-purpose and modular, OwnVerter is optimized for
-three-phase operation and can be used with BLDC motor-control examples and
-field-oriented-control libraries.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.72\textwidth]{ownverter.png}
-\caption{OwnTech OwnVerter three-phase power converter.}
-\label{fig:ownverter_board}
-\end{figure}
-
-The board includes three low-side power channels, one high-side DC bus, and
-selectable current sensing ranges. It can interface with Hall-effect sensors,
-incremental encoders, and Sin/Cos encoders, which makes it suitable for precise
-motor feedback control. It also supports communication through CAN-bus and
-RS-485, allowing it to be integrated into a larger experimental setup.
-
-OwnVerter therefore shows how the same OwnTech approach can be extended from
-general converter experiments to more advanced motor-drive applications.
-
 \section{Internship Context}
 
 The internship subject is also connected to a larger evolution of OwnTech
@@ -394,11 +320,11 @@ information.
 \begin{figure}[htbp]
     \centering
     \IfFileExists{images/chapitre 1/slide_10.png}{%
-        \includegraphics[width=0.85\textwidth]{images/chapitre 1/slide_10.png}%
+        \includegraphics[width=0.80\textwidth]{images/chapitre 1/slide_10.png}%
     }{%
         \fbox{\parbox[c][4.2cm][c]{0.85\textwidth}{\centering Missing figure file}}%
     }
-    \caption{Open-source hardware rights and their link with modularity and interoperability.}
+    \caption{Open-source hardware.}
     \label{fig:open_source_hardware_rights}
 \end{figure}
 
@@ -426,9 +352,9 @@ research platforms.
 \begin{figure}[htbp]
     \centering
     \IfFileExists{images/chapitre 1/slide_12.png}{%
-        \includegraphics[width=0.9\textwidth]{images/chapitre 1/slide_12.png}%
+        \includegraphics[width=0.80\textwidth]{images/chapitre 1/slide_12.png}%
     }{%
-        \fbox{\parbox[c][4.2cm][c]{0.9\textwidth}{\centering Missing figure file}}%
+        \fbox{\parbox[c][4.2cm][c]{0.80\textwidth}{\centering Missing figure file}}%
     }
     \caption{Main obsolescence mechanisms in power electronics.}
     \label{fig:power_electronics_obsolescence}
@@ -455,26 +381,23 @@ and adapted instead of replaced as black boxes.
 \subsection{Modularity and Software-Defined Power Conversion}
 \label{subsec:modularity_sdpc}
 
-Modularity is one way to reduce the impact of obsolescence. Instead of
-redesigning or replacing a complete converter, the system can be separated into
-functional blocks with clear interfaces: control, sensing, communication,
-isolation, gate driving, power switching, filtering, and load interface. If one
-block becomes obsolete, limited, or defective, it can be redesigned or replaced
-without changing the whole platform.
+Modularity is one way to reduce the impact of obsolescence: the converter can
+be separated into functional blocks with clear interfaces, such as control,
+sensing, communication, isolation, gate driving, power switching, and load
+interface, so that an obsolete or defective block can be redesigned or
+replaced without changing the whole platform.
 
-This idea is related to the Power Electronic Building Block (PEBB) concept,
-where power converters are organised as reusable bricks integrating switching
-devices, drivers, sensing, protection, thermal design, and local control. Several
-bricks can then be combined into a Power Converter Array (PCA) to scale voltage,
-current, power, redundancy, or topology. OwnTech also connects this logic to
-Software Defined Power Conversion (SDPC): the hardware remains generic or
-modular, while the software defines PWM generation, control loops, protections,
-operating modes, and sometimes the effective conversion function.
+This idea is related to the PEBB concept, where converters are organised as
+reusable bricks combining switching devices, drivers, sensing, and local
+control, which can then be assembled into a PCA to scale voltage, current, or
+power. OwnTech connects this logic to SDPC, where the hardware stays generic
+while the software defines the control loops, protections, and effective
+conversion function.
 
 \begin{figure}[htbp]
     \centering
     \IfFileExists{images/chapitre 1/slide_16.png}{%
-        \includegraphics[width=0.78\textwidth]{images/chapitre 1/slide_16.png}%
+        \includegraphics[width=0.75\textwidth]{images/chapitre 1/slide_16.png}%
     }{%
         \fbox{\parbox[c][4.2cm][c]{0.8\textwidth}{\centering Missing figure file}}%
     }
@@ -503,8 +426,7 @@ of the power stage.
 \subsection{Documentation and Maintenance}
 \label{subsec:documentation_maintenance}
 
-A major maintenance issue in power electronics is that converters, especially
-inverters, are often treated as black boxes. When a fault appears, the complete
+A major maintenance issue in power electronics is that converters, are often treated as black boxes. When a fault appears, the complete
 unit is frequently replaced because the internal design, diagnostic information,
 and repair procedure are not available. Open-source hardware can help reduce
 this problem only if the documentation covers the full life cycle of the
