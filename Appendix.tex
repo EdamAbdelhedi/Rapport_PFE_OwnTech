@@ -1,94 +1,35 @@
 \appendix
-\chapter*{Appendix}
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{Appendix}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{images/Chapitre 2/IM11.jpg}
-\caption{KiCad mux channel 1 schematic}
-\end{figure}
-
-
-
+\newcounter{appendixitem}
+\newcommand{\appendiximage}[3]{%
+\refstepcounter{appendixitem}
+\section*{Appendix \theappendixitem: #1}
+\vspace{0.5cm}
+\begin{center}
+\includegraphics[width=#2\textwidth]{#3}
+\end{center}
 \clearpage
+}
 
+\appendiximage{KiCad mux channel 1 schematic}{1.00}{images/Chapitre 2/IM11.jpg}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/IM5.jpg}
-\caption{\texttt{F.Cu} layer with red horizontal signal routing.}
-\label{fig:fcu_layer}
-\end{figure}
+\appendiximage{\texttt{F.Cu} layer with red horizontal signal routing}{1.00}{images/Chapitre 2/IM5.jpg}
 
-\clearpage
+\appendiximage{\texttt{In1.Cu} internal ground plane for return current}{1.00}{images/Chapitre 2/im7.jpg}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/im7.jpg}
-\caption{\texttt{In1.Cu} internal ground plane for return current.}
-\label{fig:in1_layer}
-\end{figure}
+\appendiximage{\texttt{In2.Cu} internal ground plane for return current}{1.00}{images/Chapitre 2/IM8.jpg}
 
-\clearpage
+\appendiximage{\texttt{B.Cu} layer with blue vertical signal routing}{1.00}{images/Chapitre 2/im6.jpg}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/IM8.jpg}
-\caption{\texttt{In2.Cu} internal ground plane for return current.}
-\label{fig:in2_layer}
-\end{figure}
+\appendiximage{3D view of the SPOC shield}{1.00}{images/Chapitre 2/spoc_3d.jpg}
 
-\clearpage
+\appendiximage{Manufactured SPOC shield}{1.00}{images/Chapitre 2/IMG_1595.jpeg}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/im6.jpg}
-\caption{\texttt{B.Cu} layer with blue vertical signal routing.}
-\label{fig:bcu_layer}
-\end{figure}
+\appendiximage{Schematic of the GaN Half-Bridge Board}{1.10}{images/Chapitre 3/half_bridge_schematic.png}
 
-\clearpage
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/spoc_3d.jpg}
-\caption{3D view of the SPOC shield}
-\label{fig:spoc-3d-view}
-\end{figure}
+\appendiximage{PCB layout of the GaN-based Half-Bridge Board}{1.00}{images/Chapitre 3/half_bridge_pcb_layout.png}
 
-\clearpage
-\begin{figure}[H]
-\centering
-\includegraphics[width=1.00\textwidth]{images/Chapitre 2/IMG_1595.jpeg}
-\caption{Manufactured SPOC shield}
-\label{fig:spoc-real-board}
-\end{figure}
-
-
-\clearpage
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.10\textwidth]{images/Chapitre 3/half_bridge_schematic.png}
-    \caption{Schematic of the GaN Half-Bridge Board.}
-    \label{fig:half_bridge_schematic}
-\end{figure}
-
-\clearpage
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.00\textwidth]{images/Chapitre 3/half_bridge_pcb_layout.png}
-    \caption{PCB layout of the GaN-based Half-Bridge Board.}
-    \label{fig:half_bridge_pcb_layout}
-\end{figure}
-
-\clearpage
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.00\textwidth]{images/Chapitre 3/half_bridge_3d_view.png}
-    \caption{3D view of the routed Half-Bridge Board.}
-    \label{fig:half_bridge_3d_view}
-\end{figure}
+\appendiximage{3D view of the routed Half-Bridge Board}{1.00}{images/Chapitre 3/half_bridge_3d_view.png}

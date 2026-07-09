@@ -80,7 +80,8 @@ when its functional blocks and interfaces are clearly identified.
 
 The design requirements were defined from the role of the board as a reusable
 high-speed power stage. They can be grouped into functional, electrical,
-integration, and validation constraints.
+integration, and validation constraints, as summarized in
+Table~\ref{tab:half_bridge_design_requirements}.
 
 \begin{table}[H]
 \centering
@@ -191,7 +192,7 @@ The PWM signals are transferred to the power side through two digital isolators,
 
 \subsection{Isolated Auxiliary Power Supplies}
 
-The second functional block corresponds to the isolated auxiliary power supplies. The board uses the external \(+12~V\) auxiliary input to generate the local supply voltages required by the gate-driver stages. In the schematic, this function is implemented using two separated isolated supply blocks: one for the high-side driver and one for the low-side driver.
+The second functional block corresponds to the isolated auxiliary power supplies. The board uses the external \(+12~V\) auxiliary input to generate the local supply voltages required by the gate-driver stages. In the schematic, this function is implemented using two separate isolated supply blocks: one for the high-side driver and one for the low-side driver.
 
 The high-side isolated supply is shown in Figure~\ref{fig:half_bridge_block2_isolated_supplies_haut}. It generates the floating supply required by the high-side driver. This supply is necessary because the high-side driver is referenced to \(KSN\), the Kelvin source reference of the high-side transistor. Since \(KSN\) follows the switching-node domain, the high-side driver cannot be referenced to the fixed power ground.
 
@@ -392,7 +393,7 @@ A particular aspect of the Half-Bridge Board is the use of an aluminium-based in
 
 A conventional FR4 PCB is based on a glass-fibre reinforced epoxy thermoset composite combined with one or several copper layers. This material is widely used because it is low-cost, mechanically stable, electrically insulating, and compatible with multilayer PCB manufacturing. However, its thermal conductivity is limited. Published measurements for glass-fibre PCB laminates report through-thickness thermal conductivity values of about 0.29--0.34~W/m$\cdot$K, with higher in-plane values due to fibre orientation and copper distribution~\cite{azar1996pcb_thermal,sarvar1990pcb_thermal}. This low through-thickness thermal conductivity can become a limitation in power electronics, especially when the heat losses are concentrated around power semiconductor devices.
 
-In comparison, an aluminium IMS PCB is generally composed of three main layers: a copper circuit layer, a thermally conductive and electrically insulating dielectric layer, and an aluminium base plate~\cite{godbold1997thermal_power_modules,allpcb_ims_thermal,fastturn_mcpcb}. This stack-up is illustrated in Figure~\ref{fig:ims_stackup}. The copper layer provides the electrical routing, the dielectric layer ensures electrical insulation between the circuit and the metal base, and the aluminium plate acts as a mechanical support and thermal spreading layer.
+In comparison, an aluminium IMS PCB is generally composed of three main layers: a copper circuit layer, a thermally conductive and electrically insulating dielectric layer, and an aluminium base plate~\cite{allpcb_ims_thermal,fastturn_mcpcb}. This stack-up is illustrated in Figure~\ref{fig:ims_stackup}. The copper layer provides the electrical routing, the dielectric layer ensures electrical insulation between the circuit and the metal base, and the aluminium plate acts as a mechanical support and thermal spreading layer.
 
 \begin{figure}[H]
     \centering
@@ -473,7 +474,7 @@ This estimation shows that the complete IMS stack-up can provide a through-thick
 
 \begin{table}[H]
     \centering
-    \caption{Thermal comparison between FR4 and a aluminium IMS stack-up.}
+    \caption{Thermal comparison between FR4 and an aluminium IMS stack-up.}
     \label{tab:fr4_ims_thermal_comparison}
     \begin{tabular}{|p{4.2cm}|p{3.8cm}|p{6.4cm}|}
         \hline
@@ -490,7 +491,7 @@ This estimation shows that the complete IMS stack-up can provide a through-thick
     \end{tabular}
 \end{table}
 
-This comparison highlights the key role of the dielectric layer in an aluminium IMS substrate. The aluminium base provides efficient heat spreading, but the dielectric layer must simultaneously ensure electrical insulation and thermal transfer. As a consequence, its thickness, thermal conductivity, dielectric strength, and adhesion to the neighbouring layers are critical parameters for the performance.
+This comparison highlights the key role of the dielectric layer in an aluminium IMS substrate. The aluminium base provides efficient heat spreading, but the dielectric layer must simultaneously ensure electrical insulation and thermal transfer. As a consequence, its thickness, thermal conductivity, dielectric strength, and adhesion to the neighbouring layers are critical parameters for performance.
 
 
 \subsubsection{End-of-Life Comparison Between FR4 and Aluminium IMS}

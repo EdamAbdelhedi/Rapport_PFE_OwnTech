@@ -43,7 +43,7 @@ validation workflow.
 
 The shield is designed to cover the 45 available GPIO pins of the
 \texttt{CUT SPIN}. These pins are distributed across the \texttt{PA},
-\texttt{PB}, \texttt{PC}, and \texttt{PD} port groups as shown in
+\texttt{PB}, \texttt{PC}, and \texttt{PD} ports as shown in
 Table~\ref{tab:gpio_coverage}.
 
 \begin{table}[H]
@@ -63,7 +63,8 @@ Table~\ref{tab:gpio_coverage}.
 
 \subsection{System Architecture}\label{system-architecture}
 
-The validation bench connected to the SPOC shield is built around four elements.
+The validation bench connected to the SPOC shield is built around the four
+elements listed in Table~\ref{tab:system_elements}.
 
 \begin{table}[H]
 \centering
@@ -93,7 +94,7 @@ channel.
 
 \subsection{SPOC Shield Overview}\label{spoc-shield-overview}
 
-Before detailing the internal architecture of the shield, the 3D view
+Before detailing the internal architecture of the shield, Figure~\ref{fig:spoc-3d-view}
 and the real board photograph give an overview of the designed and
 manufactured SPOC board. The 3D view shows the placement of the main
 connectors and components, while the real photograph presents the
@@ -115,13 +116,15 @@ complete board organization: one SPIN board for pin visualization
 (\texttt{CUT SPIN}), one SPIN board for mux addressing
 (\texttt{MUX SPIN}), and four repeated mux-channel
 blocks connected to the oscilloscope outputs.
-This top-level view defines how the different functional blocks are
-connected before detailing the repeated channel structure.
+Figure~\ref{fig:kicad_top_level} gives this top-level view and defines
+how the different functional blocks are connected before detailing the
+repeated channel structure.
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=1.05\textwidth]{images/Chapitre 2/IM2.png}
+\includegraphics[width=1.00\textwidth]{images/Chapitre 2/IM2.png}
 \caption{Top-level KiCad schematic of the SPOC shield}
+\label{fig:kicad_top_level}
 \end{figure}
 
 \newpage
@@ -137,12 +140,14 @@ Each repeated mux-channel block has two groups of inputs:
 \end{itemize}
 This separation makes the schematic easier to read: the MUX SPIN
 controls the routing logic, while the CUT SPIN provides the signals to
-be measured.
+be measured. This organization is shown in
+Figure~\ref{fig:mux_channel_blocks}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1.00\textwidth]{images/Chapitre 2/IM3.jpg}
 \caption{Functional blocks of one mux-channel schematic}
+\label{fig:mux_channel_blocks}
 \end{figure}
 
 \newpage
@@ -152,13 +157,15 @@ only one mux is enabled at a time. The schematic also includes local
 test points, the BNC connector path, decoupling capacitors, and the
 output network used for measurement.
 This repeated structure is used for all oscilloscope channels, which
-keeps the routing principle identical from one channel to another.
+keeps the routing principle identical from one channel to another, as
+shown in Figure~\ref{fig:kicad_mux_channel}.
 
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1.00\textwidth]{images/Chapitre 2/IM11.jpg}
 \caption{KiCad mux channel schematic}
+\label{fig:kicad_mux_channel}
 \end{figure}
 
 \newpage
@@ -206,12 +213,14 @@ capacitance so that fast signal edges are preserved more correctly. If
 the compensation is not adjusted correctly, the output network can
 behave like a low-pass or high-pass filter and distort the measured
 waveform. The compensation can be checked with a calibrated square-wave
-signal and adjusted until the displayed waveform remains square.
+signal and adjusted until the displayed waveform remains square. The
+network is shown in Figure~\ref{fig:bnc_compensation_network}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.45\textwidth]{images/Chapitre 2/IM4.jpg}
 \caption{BNC output compensation network}
+\label{fig:bnc_compensation_network}
 \end{figure}
 
 
@@ -226,7 +235,8 @@ oscilloscope. The SPOC shield uses CD74HC4067 analog
 multiplexers~\cite{ti_cd74hc4067}.
 
 
-The complete board uses:
+The complete board uses the hardware resources summarized in
+Table~\ref{tab:hardware_resources}.
 
 \begin{table}[H]
 \centering
@@ -270,7 +280,8 @@ This means a mux is enabled when its \texttt{EN\_MUXx} signal is driven low, and
 
 
 
-Each channel uses the same input-family organization:
+Each channel uses the same input-family organization, summarized in
+Table~\ref{tab:mux_input_family_organization}.
 
 \begin{table}[H]
 \centering
@@ -296,17 +307,21 @@ families stay identical for every channel: \texttt{MUX1} routes the
 \texttt{MUX3} routes the \texttt{PC}/\texttt{PD2} family. What changes
 from one channel to another is the physical PCB area and the set of
 \texttt{MUX SPIN} control pins assigned to that channel.
+Figures~\ref{fig:mux_ch1_area} and~\ref{fig:ch1_cabling} show the CH1
+area and its cabling example.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.70\textwidth]{images/Chapitre 2/MUX_CH1.jpg}
 \caption{CH1 mux area}
+\label{fig:mux_ch1_area}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.65\textwidth]{images/Chapitre 2/SPIN_Oscilloscope_Shield-CablageCH1.png}
 \caption{SPIN Oscilloscope Shield CH1 cabling}
+\label{fig:ch1_cabling}
 \end{figure}
 
 
@@ -314,7 +329,8 @@ The \texttt{CH1} figures are used as the detailed example. The same
 principle is repeated for \texttt{CH2}, \texttt{CH3}, and \texttt{CH4}:
 each channel has its own three-mux block, its own control pins, one local
 test point, and one BNC output. Only the PCB position and the assigned
-\texttt{MUX SPIN} pins change from one channel to another.
+\texttt{MUX SPIN} pins change from one channel to another. The remaining
+channel areas are shown in Figure~\ref{fig:remaining_mux_areas}.
 
 \begin{figure}[!htbp]
 \centering
@@ -336,15 +352,17 @@ test point, and one BNC output. Only the PCB position and the assigned
 \caption{\texttt{CH4}}
 \end{subfigure}
 \caption{Mux areas for the remaining oscilloscope channels}
+\label{fig:remaining_mux_areas}
 \end{figure}
 
 \FloatBarrier
 \newpage
 \subsubsection{Control Pin Mapping}\label{control-pin-mapping}
 
-The following tables summarize the \texttt{MUX SPIN} GPIO pins used to
-control the address and enable signals, and the \texttt{CUT SPIN} GPIO
-pins connected to each mux input address.
+Tables~\ref{tab:control_pin_mapping} and~\ref{tab:gpio_mux_mapping}
+summarize the \texttt{MUX SPIN} GPIO pins used to control the address and
+enable signals, and the \texttt{CUT SPIN} GPIO pins connected to each mux
+input address.
 
 \begingroup
 \small
@@ -405,7 +423,8 @@ pins connected to each mux input address.
 \subsection{PCB Layout and Stackup}\label{pcb-layout-and-stackup}
 
 The SPOC shield PCB was routed as a \texttt{4-layer} board. The external layers are used for signal routing, 
-while the internal layers are used as \texttt{GND} reference planes for current return paths.
+while the internal layers are used as \texttt{GND} reference planes for current return paths, as summarized in
+Table~\ref{tab:pcb_layers}.
 
 \begin{table}[H]
 \centering
@@ -425,7 +444,7 @@ The internal \texttt{GND} planes provide a close reference plane for the signal 
 This improves the return-current path, reduces the loop area, and helps keep the oscilloscope signals cleaner during switching.
 
 \vspace{1 cm}
-The routing widths are:
+The routing widths are given in Table~\ref{tab:track_widths}.
 
 \begin{table}[H]
 \centering
@@ -449,10 +468,11 @@ This routing strategy reduces trace crossings and optimizes the use of the avail
 \subsection{Power Supply Jumper}\label{power-supply-jumper}
 
 A \texttt{VIN} jumper was added to control the power
-link between the two SPIN boards. The jumper avoids unintentionally
+link between the two SPIN boards. The jumper avoids
 connecting the two \texttt{VIN} lines through the USB
 cable. When the jumper is soldered, both SPIN boards can be powered from
-a single USB cable.
+a USB cable. Figures~\ref{fig:vin_schematic} and~\ref{fig:vin_location}
+show the schematic and PCB location of this jumper.
 
 \begin{figure}[H]
 \centering
@@ -483,7 +503,8 @@ Before functional testing, the board was checked for shorts and correct
 supply rails. The important hardware checks passed:
 \texttt{VIN}, \texttt{3.3V},
 \texttt{GND}, BNC shield ground, and mux supply
-continuity.
+continuity. The measured values are reported in
+Table~\ref{tab:supply_voltage_measurements}.
 
 \begin{table}[H]
 \centering
@@ -497,7 +518,7 @@ continuity.
 \end{tabular}
 \end{table}
 
-No abnormal heating was observed during first power-up.
+No abnormal heating was observed during the first power-up.
 
 \subsubsection{Hardware Validation}\label{hardware-validation}
 
@@ -519,7 +540,7 @@ test point and BNC output. The hardware validation confirmed:
 \end{itemize}
 
 An early issue was found on some \texttt{MUX1 / CH1}
-routes. After resoldering the interior
+routes. After resoldering the inner
 \texttt{CUT SPIN} pins, the failing routes worked
 correctly.
 
@@ -535,12 +556,13 @@ verification. The purpose of this step is to better characterize the
 offset behavior and apply the required correction for improved
 measurement accuracy.
 
-Offset without output:
+Offset with no input signal is shown in Figure~\ref{fig:bnc_offset_no_input}.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1\textwidth]{images/Chapitre 2/offset0.png}
 \caption{BNC output offset measured without input signal}
+\label{fig:bnc_offset_no_input}
 \end{figure}
 
 The DC calibration setup compares three points at the same time:
@@ -548,14 +570,14 @@ The DC calibration setup compares three points at the same time:
 \begin{itemize}
 \item
   \texttt{VCUT}: signal directly from the
-  \texttt{CUT SPIN}, measured on oscilloscope
+  \texttt{CUT SPIN}, measured on the oscilloscope
   \texttt{CH2}
 \item
   \texttt{VTEST}: signal at the local test point,
-  measured on oscilloscope \texttt{CH3}
+  measured on oscilloscope channel \texttt{CH3}
 \item
   \texttt{VBNC}: signal at the
-  \texttt{BNC} output, measured on oscilloscope
+  \texttt{BNC} output, measured on oscilloscope channel
   \texttt{CH1}
 \end{itemize}
 
@@ -578,12 +600,12 @@ local routed signal on the shield, and the final
     \caption{Oscilloscope measurements}
 \end{subfigure}
 
-\label{fig:dc_calibration}
 \end{figure}
 
 
 
-Based on the oscilloscope measurements, we found that
+The oscilloscope measurements gave the values summarized in
+Table~\ref{tab:node_voltages}.
 \begin{table}[H]
 \centering
 \caption{Measured node voltages}
@@ -613,15 +635,18 @@ effect that must be compensated during calibration.
 
 
 \newpage
-The following schematic provides a better explanation of the DC offset.
+Figure~\ref{fig:dc_offset_schematic} provides a better explanation of
+the DC offset.
 
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=1\textwidth]{images/Chapitre 2/SPIN_Oscilloscope_Shield-DC OFFSET.drawio.png}
 \caption{DC offset schematic}
+\label{fig:dc_offset_schematic}
 \end{figure}
 To investigate this effect, the equivalent resistance formed by the three
-\SI{3}{\mega\ohm} resistors was measured.
+\SI{3}{\mega\ohm} resistors was measured. The resistor used in this
+network is shown in Figure~\ref{fig:attenuation_resistor}.
 
 The expected equivalent resistance was approximately
 \SI{9}{\mega\ohm}, while the multimeter measured about
@@ -636,6 +661,7 @@ value of \SI{3}{\mega\ohm} with a tolerance of $\pm$\SI{5}{\percent}.
 \centering
 \includegraphics[width=1\textwidth]{images/Chapitre 2/Resistance.jpg}
 \caption{Resistor used in the output attenuation network}
+\label{fig:attenuation_resistor}
 \end{figure}
 
 With the measured resistor network, the divider is not exactly
@@ -714,7 +740,8 @@ required route, measures the real electrical waveform with a Rigol
 oscilloscope, and produces an automatic \texttt{PASS}/\texttt{FAIL}
 result.
 
-The validation framework is divided into three parts:
+The validation framework is divided into the three parts listed in
+Table~\ref{tab:software_components}.
 
 \begin{table}[H]
 \centering
@@ -731,10 +758,9 @@ The validation framework is divided into three parts:
 \normalsize
 \end{table}
 
-The framework validates the PWM behavior end to end. The laptop does not
-simulate the signal; it commands the real \texttt{CUT} firmware, the
-\texttt{CUT} generates an electrical waveform, the \texttt{MUX} routes
-that waveform, and the oscilloscope measures it.
+The framework validates the real PWM signal from CUT configuration to
+MUX routing and oscilloscope measurement, as shown in
+Figure~\ref{fig:functional_phases}.
 
 \begin{figure}[H]
 \centering
@@ -774,7 +800,8 @@ signal measured during validation.
 The firmware stores the requested PWM configuration in a shared state
 and applies it only when the host triggers the apply command, avoiding
 partial configurations being propagated to the PWM outputs while
-several parameters are being updated.
+several parameters are being updated. Its main responsibilities are
+summarized in Table~\ref{tab:core_cut_responsibilities}.
 
 \begin{table}[H]
 \centering
@@ -799,7 +826,8 @@ the \texttt{xApply} object, the ThingSet callback calls
 \texttt{cut\_pwm\_apply()}: the previous PWM state is cleared, the
 selected timing units are configured, and the enabled outputs are
 started, making the resulting waveform available on the physical
-\texttt{CUT SPIN} pins.
+\texttt{CUT SPIN} pins. The main ThingSet objects used by the tests are
+listed in Table~\ref{tab:core_cut_thingset_objects}.
 
 \begin{table}[H]
 \centering
@@ -843,7 +871,8 @@ The MUX firmware is simpler than the CUT firmware: it does
 not generate signals, it only applies a routing state. The host selects a
 mux input index and an oscilloscope channel, then the firmware disables
 the previous route, updates the select pins, and enables the selected
-mux output.
+mux output. Table~\ref{tab:core_mux_responsibilities} summarizes the
+main firmware responsibilities.
 
 \begin{table}[H]
 \centering
@@ -863,7 +892,8 @@ mux output.
 
 Each oscilloscope channel has its own routing group. The four select
 pins encode the input index, while the enable pins select which mux
-group is active for that channel.
+group is active for that channel. The routing groups are listed in
+Table~\ref{tab:core_mux_routing_groups}.
 
 \begin{table}[H]
 \centering
@@ -908,10 +938,9 @@ measured values, and compares them with the expected result.
 \subsubsection{Main Software Classes}
 \label{main-software-classes}
 
-The host software is organized around a small set of Python classes,
-each isolating one communication responsibility so that validation
-scripts do not directly manage serial commands, mux routing, or
-oscilloscope SCPI instructions.
+The host software uses Python classes to separate serial communication,
+mux routing, and oscilloscope control, as summarized in
+Table~\ref{tab:host_controller_classes}.
 
 \begin{table}[H]
 \centering
@@ -956,12 +985,10 @@ itself: signal, route, measurement, and tolerance.
 \subsection{Automated Validation Procedure}
 \label{automated-validation-procedure}
 
-Each automated test follows the same general sequence. The host first
-configures the PWM output on the CUT board, then asks the MUX board to
-route the selected pin to an oscilloscope channel. After the signal is
-stable, the oscilloscope is configured and the required measurements are
-read. Finally, the script compares the measured values with the expected
-values and returns a \texttt{PASS} or \texttt{FAIL} result.
+Each automated test configures the CUT PWM output, routes it through the
+MUX, measures it with the oscilloscope, and returns a \texttt{PASS} or
+\texttt{FAIL} result, as illustrated in
+Figure~\ref{fig:software_sequence_diagram}.
 
 \begin{figure}[H]
 \centering
@@ -975,9 +1002,10 @@ values and returns a \texttt{PASS} or \texttt{FAIL} result.
 \subsection{Implemented Validation Tests}
 \label{implemented-validation-tests}
 
-Nine PWM validation tests were implemented. They cover both basic PWM
+Nine PWM validation tests were implemented. They cover PWM
 generation and more advanced timing features such as complementary
-outputs, phase shift, and burst mode.
+outputs, phase shift, and burst mode. Table~\ref{tab:implemented_pwm_tests}
+summarizes these tests and their pass criteria.
 
 \begin{table}[H]
 \centering
@@ -1043,7 +1071,8 @@ The expected burst pattern was \texttt{7} inactive cycles,
 oscilloscope showed \texttt{8} inactive cycles, \texttt{3} active
 cycles, and \texttt{11} total cycles. The measured time between two
 burst patterns was \SI{8.75}{\milli\second} instead of the expected
-\SI{7.5}{\milli\second}.
+\SI{7.5}{\milli\second}. The observed timing error is shown in
+Figure~\ref{fig:burst_mode_timing_error}.
 
 \begin{figure}[H]
 \centering
@@ -1070,6 +1099,9 @@ more than the value written to the register:
 \text{real inactive cycles} &= \texttt{HRTIM\_BMCMP} + 1 \\
 \text{real total cycles} &= \texttt{HRTIM\_BMPER} + 1
 \end{align}
+
+The relevant counter behavior from the reference manual is shown in
+Figure~\ref{fig:burst_mode_datasheet}.
 
 \begin{figure}[H]
 \centering

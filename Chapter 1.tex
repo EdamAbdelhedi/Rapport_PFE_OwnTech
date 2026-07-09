@@ -11,6 +11,8 @@ converters is usually complex because it combines hardware constraints,
 real-time control, embedded software, measurement, safety, thermal management,
 and electromagnetic compatibility.
 
+The OwnTech logo is shown in Figure~\ref{fig:owntech_logo}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.38\textwidth]{OwnTech-Logo-1024x512.jpeg}
@@ -52,7 +54,8 @@ to test different converter topologies and control strategies.
 
 This accessibility objective can be understood by comparison with other
 open electronics platforms. Arduino made embedded electronics accessible
-to a large community of users.
+to a large community of users, as illustrated in
+Figure~\ref{fig:arduino_accessibility}.
 
 \begin{figure}[H]
 \centering
@@ -61,8 +64,9 @@ to a large community of users.
 \label{fig:arduino_accessibility}
 \end{figure}
 
-In a similar way, Raspberry Pi made small computing platforms accessible for
-education, prototyping, and embedded projects.
+In a similar way, Raspberry Pi, shown in
+Figure~\ref{fig:raspberry_pi_accessibility}, made small computing platforms
+accessible for education, prototyping, and embedded projects.
 
 \begin{figure}[H]
 \centering
@@ -71,8 +75,9 @@ education, prototyping, and embedded projects.
 \label{fig:raspberry_pi_accessibility}
 \end{figure}
 
-Micro:bit simplified the first contact with programming and digital systems,
-especially for children, beginners, and educational activities.
+Micro:bit, shown in Figure~\ref{fig:microbit_accessibility}, simplified the
+first contact with programming and digital systems, especially for children,
+beginners, and educational activities.
 
 \begin{figure}[H]
 \centering
@@ -81,10 +86,9 @@ especially for children, beginners, and educational activities.
 \label{fig:microbit_accessibility}
 \end{figure}
 
-OwnTech follows the same accessibility logic in the field of power
-electronics. After these well-known examples, the next step is to present
-the SPIN control board, which was the main hardware platform used during
-this internship.
+OwnTech applies the same accessibility logic to power electronics.
+Figure~\ref{fig:owntech_sandbox} summarizes this broader technology sandbox
+before introducing SPIN, the main hardware platform used during this internship.
 
 \begin{figure}[H]
 \centering
@@ -152,10 +156,9 @@ and software are already compatible, with a simplified graphical interface
 for quick control and a development environment for adapting the application
 to the required use case.
 
-Once deployed, usage data can be collected through the monitoring platform,
-and users can rely on extended documentation, from calculation notes to user
-manuals, as well as community support for sharing results and solving
-problems.
+Once deployed, the platform supports data monitoring, extended documentation,
+and community exchange for sharing results and solving problems. This unified
+environment is illustrated in Figure~\ref{fig:owntech_user_environment}.
 
 \begin{figure}[H]
 \centering
@@ -173,7 +176,8 @@ for several OwnTech converter platforms.
 OwnTech presents SPIN as a free, ergonomic, and multi-function power controller
 ~\cite{owntech_spin}. Its main interest is that the same control board can be
 reused with different power stages, while keeping a common software environment
-and development workflow.
+and development workflow. The board is shown in
+Figure~\ref{fig:spin_control_board}.
 
 Compared with a conventional microcontroller development board, SPIN provides functions that are
 directly useful for switched-mode converters: PWM generation, synchronized
@@ -192,12 +196,11 @@ prototypes.
 \subsubsection{Typical SPIN Workflow}
 
 The SPIN board is designed to reduce the number of steps required to start
-controlling a power converter. The intended workflow is simple: the user
-connects the board through USB-C, downloads the OwnTech code and examples from
-GitLab, then programs the board to drive the power stage. This workflow is
-important because it lowers the entry barrier for users who want to experiment
-with digital power electronics without building a complete control environment
-from scratch.
+controlling a power converter. The workflow remains simple: the user connects
+the board through USB-C, downloads the OwnTech code and examples from GitLab,
+then programs the board to drive the power stage. This lowers the entry barrier
+for users who want to experiment with digital power electronics. The main
+features of SPIN are summarized in Table~\ref{tab:spin_features}.
 
 
 \begin{table}[H]
@@ -315,7 +318,8 @@ standardised documentation practices in order to make these rights usable in
 practice~\cite{bonvoisin2020standardisation}. A schematic or a PCB file alone is
 not enough: users also need interface descriptions, assembly information,
 manufacturing data, software, tests, safety limits, and maintenance-oriented
-information.
+information. Figure~\ref{fig:open_source_hardware_rights} illustrates the
+main rights associated with open-source hardware.
 
 \begin{figure}[htbp]
     \centering
@@ -392,12 +396,13 @@ reusable bricks combining switching devices, drivers, sensing, and local
 control, which can then be assembled into a PCA to scale voltage, current, or
 power. OwnTech connects this logic to SDPC, where the hardware stays generic
 while the software defines the control loops, protections, and effective
-conversion function.
+conversion function. Figure~\ref{fig:pebb_pca_sdpc_concepts} summarizes these
+related concepts.
 
 \begin{figure}[htbp]
     \centering
     \IfFileExists{images/chapitre 1/slide_16.png}{%
-        \includegraphics[width=0.75\textwidth]{images/chapitre 1/slide_16.png}%
+        \includegraphics[width=0.70\textwidth]{images/chapitre 1/slide_16.png}%
     }{%
         \fbox{\parbox[c][4.2cm][c]{0.8\textwidth}{\centering Missing figure file}}%
     }
@@ -405,7 +410,7 @@ conversion function.
     \label{fig:pebb_pca_sdpc_concepts}
 \end{figure}
 
-Rahmani discuss the opportunities of modularity for the eco-design of
+Rahmani et al. discuss the opportunities of modularity for the eco-design of
 power converters, especially through repair, reuse, and replacement of
 sub-parts~\cite{rahmani2021modularity}. This is particularly relevant in power
 electronics because the stressed elements of a converter do not age at the same
@@ -426,11 +431,11 @@ of the power stage.
 \subsection{Documentation and Maintenance}
 \label{subsec:documentation_maintenance}
 
-A major maintenance issue in power electronics is that converters, are often treated as black boxes. When a fault appears, the complete
+A major maintenance issue in power electronics is that converters are often treated as black boxes. When a fault appears, the complete
 unit is frequently replaced because the internal design, diagnostic information,
 and repair procedure are not available. Open-source hardware can help reduce
 this problem only if the documentation covers the full life cycle of the
-product, not only its manufacturing phase.
+product, not only its manufacturing phase. Figure~\ref{fig:repairable_converter_architecture} illustrates Modular architecture for a repairable power converter.
 
 \begin{figure}[htbp]
     \centering
